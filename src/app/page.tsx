@@ -1,24 +1,37 @@
-import { Button } from "@nextui-org/react";
-import Image from "next/image";
+import { Button, Switch } from "@nextui-org/react";
+import { FaCircleInfo } from "react-icons/fa6";
 
 export default function Home() {
   return (
     <main className="flex flex-col h-screen">
-      <header className="flex justify-between">
-        <div className="flex">
-          <p>Learn Vocoders</p>
-          <button>File</button>
+      <header className="flex justify-between p-4">
+        <div className="flex items-center">
+          <p className="">Learn Vocoders</p>
+          {/* implement using NextUI Dropdown */}
+          <Button>File</Button>
         </div>
         <div className="flex">
-          <p>Explanation mode</p>
-          <button>toggle</button>
+          <Switch
+            defaultChecked={false}
+            color="primary"
+            endContent={<FaCircleInfo />}
+          >
+            Explanation mode
+          </Switch>
         </div>
       </header>
       <main className="flex-grow">
-        <p>hi</p>
+        <div>carrier</div>
+        <div>modulator</div>
+        <div>midi notes</div>
+        <div>run</div>
+        <div>show steps</div>
+        <div>output</div>
       </main>
-      <footer>
-        <Button color="secondary">Learn More About Vocoders!</Button>
+      <footer className="p-4">
+        <Button color="secondary" className="float-right">
+          Learn More About Vocoders!
+        </Button>
       </footer>
     </main>
   );
