@@ -1,12 +1,13 @@
 import { Button, Switch } from "@nextui-org/react";
 import { FaCircleInfo } from "react-icons/fa6";
+import RunVocoderForm from "./ui/run-vocoder-form";
 
 export default function Home() {
   return (
     <main className="flex flex-col h-screen">
       <header className="flex justify-between p-4">
         <div className="flex items-center">
-          <p className="">Learn Vocoders</p>
+          <p className="mr-8 font-bold">Learn Vocoders</p>
           {/* implement using NextUI Dropdown */}
           <Button>File</Button>
         </div>
@@ -20,14 +21,9 @@ export default function Home() {
           </Switch>
         </div>
       </header>
-      <main className="flex-grow">
-        <div>carrier</div>
-        <div>modulator</div>
-        <div>midi notes</div>
-        <div>run</div>
-        <div>show steps</div>
-        <div>output</div>
-      </main>
+      <div className="flex-grow p-4">
+        <RunVocoderForm />
+      </div>
       <footer className="p-4">
         <Button color="secondary" className="float-right">
           Learn More About Vocoders!
