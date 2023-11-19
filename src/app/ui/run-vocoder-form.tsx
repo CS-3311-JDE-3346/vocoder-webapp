@@ -11,7 +11,12 @@ import ShowWaveform from "./show-waveform";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" color="primary" isLoading={pending} className="max-w-sm">
+    <Button
+      type="submit"
+      color="primary"
+      isLoading={pending}
+      className="max-w-sm"
+    >
       Run
     </Button>
   );
@@ -29,7 +34,7 @@ export default function RunVocoderForm() {
         <div className="col-span-2">
           <MidiInput />
         </div>
-        <Switch name="show-steps" value="true" >
+        <Switch name="show-steps" value="true">
           Show steps
         </Switch>
         <SubmitButton />

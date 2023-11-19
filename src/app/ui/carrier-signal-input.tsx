@@ -38,6 +38,7 @@ export default function CarrierSignalInput() {
     <div>
       <Select
         label="Carrier Signal"
+        name="carrier-signal"
         selectedKeys={value}
         onSelectionChange={setValue}
       >
