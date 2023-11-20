@@ -99,7 +99,7 @@ export default function ModulatorSignalInput() {
 
   return (
     <div>
-      <div className="flex">
+      <div className="flex gap-4">
         <input
           className="hidden"
           name="modulator-signal"

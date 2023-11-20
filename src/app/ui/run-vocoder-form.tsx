@@ -40,7 +40,7 @@ export default function RunVocoderForm() {
 
   return (
     <div>
-      <form action={dispatch} className="grid grid-cols-2">
+      <form action={dispatch} className="grid grid-cols-2 gap-8">
         <CarrierSignalInput />
         <ModulatorSignalInput />
         <div className="col-span-2">
