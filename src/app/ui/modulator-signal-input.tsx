@@ -100,9 +100,14 @@ export default function ModulatorSignalInput() {
   return (
     <div>
       <div className="flex">
+        <input
+          className="hidden"
+          name="modulator-signal"
+          readOnly
+          value={selectedModulatorSignal?.filename}
+        />
         <Select
           label="Modulator Signal"
-          name="modulator-signal"
           selectedKeys={value}
           onSelectionChange={setValue}
         >

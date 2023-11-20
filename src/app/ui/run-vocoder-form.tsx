@@ -23,8 +23,20 @@ function SubmitButton() {
 }
 
 export default function RunVocoderForm() {
+  async function runVocoderWithFile(prevState: any, formData: FormData) {
+    // add modulator signal to formData
+    const modulatorSignalPath = formData.get("modulator-signal")
+    if (!modulatorSignalPath) return
+    const blob = await fetch(modulatorSignalPath).then((r) =>
+      r.blob()
+    );
+    formData.set("modulator-signal", blob)
+
+    return await runVocoder(prevState, formData);
+  }
+
   const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(runVocoder, initialState);
+  const [state, dispatch] = useFormState(runVocoderWithFile, initialState);
 
   return (
     <div>
