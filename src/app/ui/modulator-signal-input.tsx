@@ -29,6 +29,7 @@ export default function ModulatorSignalInput() {
   const [modulatorSignals, setModulatorSignals] = useState(
     defaultModulatorSignals
   );
+  const [formError, setFormError] = useState<string>("");
   const [value, setValue] = useState(new Set(["hello"]));
   const [isPlaying, setIsPlaying] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -80,13 +81,18 @@ export default function ModulatorSignalInput() {
         setIsPlaying(false);
       });
 
-      if (window) {
-        window.surferidze = wavesurferRef.current;
-      }
+      // if (window) {
+      //   window.surferidze = wavesurferRef.current;
+      // }
     }
   };
 
-  const createModulatorSignal = (formData: FormData) => {
+  const createModulatorSignal = (onClose, formData: FormData) => {
+    if (!formData.get("name") || !formData.get("file")) {
+      setFormError("Please specify a name and audio file");
+      return;
+    }
+
     setModulatorSignals((prev) => [
       ...prev,
       {
@@ -95,10 +101,13 @@ export default function ModulatorSignalInput() {
         filename: URL.createObjectURL(formData.get("file")),
       },
     ]);
+
+    setFormError("");
+    onClose();
   };
 
   return (
-    <div>
+    <div className="p-2 rounded-lg drop-shadow-md bg-white">
       <div className="flex gap-4">
         <input
           className="hidden"
@@ -117,7 +126,7 @@ export default function ModulatorSignalInput() {
             </SelectItem>
           ))}
         </Select>
-        <Button onPress={onOpen}>Add</Button>
+        <Button onPress={onOpen}>Add new</Button>
       </div>
       <div>
         <WaveSurfer plugins={plugins} onMount={handleWSMount}>
@@ -138,10 +147,18 @@ export default function ModulatorSignalInput() {
           </Button>
         </div>
       </div>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={() => {
+          setFormError("");
+          onOpenChange();
+        }}
+      >
         <ModalContent>
           {(onClose) => (
-            <form action={createModulatorSignal}>
+            <form
+              action={(formData) => createModulatorSignal(onClose, formData)}
+            >
               <ModalHeader className="flex flex-col gap-1">
                 Create a new modulator signal
               </ModalHeader>
@@ -153,12 +170,13 @@ export default function ModulatorSignalInput() {
                   </label>
                   <input id="file" name="file" type="file" accept="audio/*" />
                 </div>
+                {formError && <p className="text-red-600">{formError}</p>}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Cancel
                 </Button>
-                <Button color="primary" type="submit" onPress={onClose}>
+                <Button color="primary" type="submit">
                   Create
                 </Button>
               </ModalFooter>

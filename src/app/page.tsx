@@ -5,11 +5,11 @@ import RunVocoderForm from "./ui/run-vocoder-form";
 export default function Home() {
   return (
     <main className="flex flex-col h-screen">
-      <header className="flex justify-between p-4">
+      <header className="flex justify-between p-4 bg-blue-300 drop-shadow">
         <div className="flex items-center">
-          <p className="mr-8 font-bold">Learn Vocoders</p>
+          <p className="mr-8 font-bold text-slate-800">Learn Vocoders</p>
           {/* implement using NextUI Dropdown */}
-          <Button>File</Button>
+          <Button className="bg-blue-700 text-slate-300">File</Button>
         </div>
         <div className="flex">
           <Switch

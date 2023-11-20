@@ -35,7 +35,7 @@ export default function CarrierSignalInput() {
   );
 
   return (
-    <div>
+    <div className="p-2 rounded-lg drop-shadow-md bg-white">
       <Select
         label="Carrier Signal"
         name="carrier-signal"
