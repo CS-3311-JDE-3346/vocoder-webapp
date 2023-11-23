@@ -70,23 +70,24 @@ export default function ShowWaveform() {
   return (
     <div className="p-2 rounded-lg drop-shadow-md bg-white">
       <div>
+        <div>Output</div>
+        <div className="mt-6">
+          {isPlaying ? (
+            <Button onPress={() => wavesurferRef.current.pause()}>Pause</Button>
+          ) : (
+            <Button onPress={() => wavesurferRef.current.play()}>Play</Button>
+          )}
+          <Button
+            onPress={() => wavesurferRef.current.seekTo(0)}
+            className="ml-4"
+          >
+            Restart
+          </Button>
+          </div>
         <WaveSurfer plugins={plugins} onMount={handleWSMount}>
           <WaveForm id="waveform2"></WaveForm>
           <div id="timeline2" />
         </WaveSurfer>
-          <div className="mt-6">
-            {isPlaying ? (
-              <Button onPress={() => wavesurferRef.current.pause()}>Pause</Button>
-            ) : (
-              <Button onPress={() => wavesurferRef.current.play()}>Play</Button>
-            )}
-            <Button
-              onPress={() => wavesurferRef.current.seekTo(0)}
-              className="ml-4"
-            >
-              Restart
-            </Button>
-          </div>
       </div>
     </div>
   )
