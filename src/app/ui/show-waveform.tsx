@@ -17,8 +17,7 @@ import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import RecordPlugin from "wavesurfer.js/dist/plugins/record";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
 
-export default function ShowWaveform() {
-
+export default function ShowWaveform({ blob }) {
   const [formError, setFormError] = useState<string>("");
   const [value, setValue] = useState(new Set(["hello"]));
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,13 +37,14 @@ export default function ShowWaveform() {
     },
   ];
 
-  const handleWSMount = (waveSurfer) => {
+  useEffect(() => {
+    if (blob) wavesurferRef.current.loadBlob(blob);
+  }, [blob]);
+
+  const handleWSMount = async (waveSurfer) => {
     wavesurferRef.current = waveSurfer;
 
     if (wavesurferRef.current) {
-      wavesurferRef.current.load("/hello_example.flac");
-      // console.log(wavesurferRef.current.plugins[0].startRecording())
-
       wavesurferRef.current.on("ready", () => {
         console.log("WaveSurfer is ready");
       });
@@ -83,12 +83,12 @@ export default function ShowWaveform() {
           >
             Restart
           </Button>
-          </div>
+        </div>
         <WaveSurfer plugins={plugins} onMount={handleWSMount}>
           <WaveForm id="waveform2"></WaveForm>
           <div id="timeline2" />
         </WaveSurfer>
       </div>
     </div>
-  )
+  );
 }

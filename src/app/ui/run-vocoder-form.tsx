@@ -22,6 +22,15 @@ function SubmitButton() {
   );
 }
 
+function base64ToArrayBuffer(base64) {
+  var binaryString = atob(base64);
+  var bytes = new Uint8Array(binaryString.length);
+  for (var i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
 export default function RunVocoderForm() {
   async function runVocoderWithFile(prevState: any, formData: FormData) {
     // add modulator signal to formData
@@ -35,6 +44,10 @@ export default function RunVocoderForm() {
 
   const initialState = { message: null, error: null };
   const [state, dispatch] = useFormState(runVocoderWithFile, initialState);
+  const blob = state.buffer
+    ? new Blob([base64ToArrayBuffer(state.buffer)], { type: "audio/x-flac" })
+    : undefined;
+  // console.log(blob && URL.createObjectURL(blob))
 
   return (
     <div>
@@ -53,10 +66,10 @@ export default function RunVocoderForm() {
             Show steps
           </Switch>
           <SubmitButton />
-          { state.error && <p className="text-red-600">{state.error}</p>}
+          {state.error && <p className="text-red-600">{state.error}</p>}
         </div>
       </form>
-      <ShowWaveform />
+      <ShowWaveform blob={blob} />
     </div>
   );
 }
