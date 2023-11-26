@@ -21,7 +21,7 @@ const defaultModulatorSignals = [
   {
     name: "hello",
     label: "Hello example",
-    filename: "/hello_example.flac",
+    filename: "/hello_example.wav",
   },
 ];
 
@@ -62,7 +62,7 @@ export default function ModulatorSignalInput() {
     wavesurferRef.current = waveSurfer;
 
     if (wavesurferRef.current) {
-      wavesurferRef.current.load("/hello_example.flac");
+      wavesurferRef.current.load("/hello_example.wav");
       // console.log(wavesurferRef.current.plugins[0].startRecording())
 
       wavesurferRef.current.on("ready", () => {

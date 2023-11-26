@@ -1,6 +1,7 @@
 "use server";
 
-import { mkdirSync, readFileSync } from "fs";
+import { execSync } from "child_process";
+import { readFileSync, writeFileSync } from "fs";
 
 export async function runVocoder(prevState: any, formData: FormData) {
   const carrierSignalName = formData.get("carrier-signal");
@@ -12,17 +13,25 @@ export async function runVocoder(prevState: any, formData: FormData) {
     };
   }
 
-  await new Promise((r) => setTimeout(r, 1000));
-  const buffer = readFileSync("temp/hello_example.flac");
-  // const blob = new Blob([buffer]);
-  // console.log("server", blob)
-  // const data = await response.blob();
-  // const file = new File([data], "example.flac", {
-  //   type: ".flac"
-  // })
+  const modulatorBuffer = Buffer.from(await modulatorSignal.arrayBuffer());
+  writeFileSync("temp/modulator_signal.wav", modulatorBuffer);
 
+  execSync(
+    `ffmpeg -y -i temp/modulator_signal.wav -ar 44100 temp/modulator_signal_44100.wav`
+  );
+
+  execSync(
+    `./vocoder -c public/${carrierSignalName}_example.wav -m temp/modulator_signal_44100.wav -o temp/output.wav`
+  );
+
+  execSync(
+    `./vocoder -c temp/carrier_white_noise.wav -m temp/modulator_signal_44100.wav -o temp/output.wav`
+  );
+
+  await new Promise((r) => setTimeout(r, 1000));
+  const outputBuffer = readFileSync("temp/output.wav");
   return {
     message: "success",
-    buffer: Buffer.from(buffer).toString('base64'),
+    buffer: Buffer.from(outputBuffer).toString("base64"),
   };
 }
