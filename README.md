@@ -1,4 +1,5 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+We also used HTML, CSS, JavaScript, and [React](https://react.dev/) in the implementation of our NextJS software.
 
 ## Sprint 1 Notes
 For Sprint 1, we focused on the front end on creating the basic main vocoder page. This is because
@@ -6,6 +7,8 @@ our main goal for the first sprint was to get a basic vocoder working so that we
 build out future educational aspects off the basic vocoder. We thought that this way would be
 easier for us as well as coding out the vocoder ourselves would also give us knowledge in vocoders
 ourselves, which would make implementing the educational aspects later even easier for us.
+
+This is only a website and is intended to work on Windows, MacOS, and Linux OS.
 
 ## Getting Started
 
