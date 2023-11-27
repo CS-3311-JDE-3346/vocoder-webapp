@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Sprint 1 Notes
+For Sprint 1, we focused on the front end on creating the basic main vocoder page. This is because
+our main goal for the first sprint was to get a basic vocoder working so that we could then
+build out future educational aspects off the basic vocoder. We thought that this way would be
+easier for us as well as coding out the vocoder ourselves would also give us knowledge in vocoders
+ourselves, which would make implementing the educational aspects later even easier for us.
+
 ## Getting Started
 
 First, run the development server:
