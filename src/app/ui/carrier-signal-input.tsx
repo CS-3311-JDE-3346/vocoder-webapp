@@ -5,25 +5,25 @@ const carrierSignals = [
   {
     name: "sine",
     label: "Sine wave",
-    filename: "sine_example.flac",
+    filename: "sine_example.wav",
     imagename: "sine_waveform.png",
   },
   {
     name: "square",
     label: "Square wave",
-    filename: "square_example.flac",
+    filename: "square_example.wav",
     imagename: "square_waveform.png",
   },
   {
     name: "triangle",
     label: "Triangle wave",
-    filename: "triangle_example.flac",
+    filename: "triangle_example.wav",
     imagename: "triangle_waveform.png",
   },
   {
     name: "sawtooth",
     label: "Sawtooth wave",
-    filename: "sawtooth_example.flac",
+    filename: "sawtooth_example.wav",
     imagename: "sawtooth_waveform.png",
   },
 ];
@@ -57,7 +57,7 @@ export default function CarrierSignalInput() {
             radius="none"
           />
           <audio controls key={selectedCarrierSignal.name} className="mt-6">
-            <source src={`/${selectedCarrierSignal.filename}`} type="audio/flac" />
+            <source src={`/${selectedCarrierSignal.filename}`} type="audio/wav" />
           </audio>
         </div>
       )}
