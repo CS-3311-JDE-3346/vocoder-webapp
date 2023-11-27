@@ -8,7 +8,7 @@ build out future educational aspects off the basic vocoder. We thought that this
 easier for us as well as coding out the vocoder ourselves would also give us knowledge in vocoders
 ourselves, which would make implementing the educational aspects later even easier for us.
 
-This is only a website and is intended to work on Windows, MacOS, and Linux OS.
+Our technologies used are Next.js, React, and JUCE, and the programming languages used are JavaScript, HTML, CSS, and C. Since this is a website, it can work on any platform or device with a web browser.
 
 ## Getting Started
 
