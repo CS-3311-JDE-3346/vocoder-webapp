@@ -17,26 +17,19 @@ import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import RecordPlugin from "wavesurfer.js/dist/plugins/record";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
 
-const defaultModulatorSignals = [
-  {
-    name: "hello",
-    label: "Hello example",
-    filename: "/hello_example.wav",
-  },
-];
-
-export default function ModulatorSignalInput() {
-  const [modulatorSignals, setModulatorSignals] = useState(
-    defaultModulatorSignals
-  );
+export default function SignalInput({
+  initialSignals,
+  defaultSignalName,
+  formInputLabel,
+  signalType,
+}) {
+  const [signals, setSignals] = useState(initialSignals);
   const [formError, setFormError] = useState<string>("");
-  const [value, setValue] = useState(new Set(["hello"]));
+  const [value, setValue] = useState(new Set([defaultSignalName]));
   const [isPlaying, setIsPlaying] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const selectedModulatorSignal = modulatorSignals.find(
-    (c) => c.name === [...value][0]
-  );
+  const selectedSignal = signals.find((c) => c.name === [...value][0]);
 
   const wavesurferRef = useRef();
 
@@ -47,14 +40,14 @@ export default function ModulatorSignalInput() {
     {
       plugin: TimelinePlugin,
       options: {
-        container: "#timeline",
+        container: `#timeline-${signalType}`,
       },
     },
   ];
 
   useEffect(() => {
     if (wavesurferRef.current) {
-      wavesurferRef.current.load(selectedModulatorSignal?.filename);
+      wavesurferRef.current.load(selectedSignal?.filename);
     }
   }, [value]);
 
@@ -62,15 +55,14 @@ export default function ModulatorSignalInput() {
     wavesurferRef.current = waveSurfer;
 
     if (wavesurferRef.current) {
-      wavesurferRef.current.load("/hello_example.wav");
       // console.log(wavesurferRef.current.plugins[0].startRecording())
 
       wavesurferRef.current.on("ready", () => {
-        console.log("WaveSurfer is ready");
+        // console.log("WaveSurfer is ready");
       });
 
       wavesurferRef.current.on("loading", (data) => {
-        console.log("loading --> ", data);
+        // console.log("loading --> ", data);
       });
 
       wavesurferRef.current.on("play", (data) => {
@@ -87,13 +79,13 @@ export default function ModulatorSignalInput() {
     }
   };
 
-  const createModulatorSignal = (onClose, formData: FormData) => {
+  const createSignal = (onClose, formData: FormData) => {
     if (!formData.get("name") || !formData.get("file")) {
       setFormError("Please specify a name and audio file");
       return;
     }
 
-    setModulatorSignals((prev) => [
+    setSignals((prev) => [
       ...prev,
       {
         name: formData.get("name"),
@@ -107,22 +99,23 @@ export default function ModulatorSignalInput() {
   };
 
   return (
-    <div className="p-2 rounded-lg drop-shadow-md bg-white">
+    <div className="p-2 rounded-lg drop-shadow-md bg-white flex-grow">
       <div className="flex gap-4">
         <input
           className="hidden"
-          name="modulator-signal"
+          name={`${signalType}-signal`}
           readOnly
-          value={selectedModulatorSignal?.filename}
+          value={selectedSignal?.filename}
         />
         <Select
-          label="Modulator Signal"
+          label={formInputLabel}
           selectedKeys={value}
           onSelectionChange={setValue}
+          disallowEmptySelection
         >
-          {modulatorSignals.map((modulatorSignal) => (
-            <SelectItem key={modulatorSignal.name} value={modulatorSignal.name}>
-              {modulatorSignal.label}
+          {signals.map((signal) => (
+            <SelectItem key={signal.name} value={signal.name}>
+              {signal.label}
             </SelectItem>
           ))}
         </Select>
@@ -130,8 +123,8 @@ export default function ModulatorSignalInput() {
       </div>
       <div>
         <WaveSurfer plugins={plugins} onMount={handleWSMount}>
-          <WaveForm id="waveform"></WaveForm>
-          <div id="timeline" />
+          <WaveForm id={`waveform-${signalType}`}></WaveForm>
+          <div id={`timeline-${signalType}`} />
         </WaveSurfer>
         <div className="mt-6">
           {isPlaying ? (
@@ -156,11 +149,9 @@ export default function ModulatorSignalInput() {
       >
         <ModalContent>
           {(onClose) => (
-            <form
-              action={(formData) => createModulatorSignal(onClose, formData)}
-            >
+            <form action={(formData) => createSignal(onClose, formData)}>
               <ModalHeader className="flex flex-col gap-1">
-                Create a new modulator signal
+                {`Create a new ${signalType} signal`}
               </ModalHeader>
               <ModalBody>
                 <Input label="Name" name="name" labelPlacement="outside-left" />
@@ -168,7 +159,12 @@ export default function ModulatorSignalInput() {
                   <label htmlFor="file" className="text-sm">
                     Upload Signal
                   </label>
-                  <input id="file" name="file" type="file" accept="audio/*" />
+                  <input
+                    id={`file-${signalType}`}
+                    name="file"
+                    type="file"
+                    accept="audio/*"
+                  />
                 </div>
                 {formError && <p className="text-red-600">{formError}</p>}
               </ModalBody>

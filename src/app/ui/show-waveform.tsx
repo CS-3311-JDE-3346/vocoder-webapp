@@ -1,27 +1,13 @@
 "use client";
 
-import {
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import RecordPlugin from "wavesurfer.js/dist/plugins/record";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
 
 export default function ShowWaveform({ blob }) {
-  const [formError, setFormError] = useState<string>("");
-  const [value, setValue] = useState(new Set(["hello"]));
   const [isPlaying, setIsPlaying] = useState(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const wavesurferRef = useRef();
 
@@ -38,7 +24,10 @@ export default function ShowWaveform({ blob }) {
   ];
 
   useEffect(() => {
-    if (blob) wavesurferRef.current.loadBlob(blob);
+    if (blob) {
+      wavesurferRef.current.empty();
+      wavesurferRef.current.loadBlob(blob);
+    }
   }, [blob]);
 
   const handleWSMount = async (waveSurfer) => {
