@@ -30,9 +30,9 @@ export async function runVocoder(prevState: any, formData: FormData) {
     `./vocoder -c temp/carrier_signal_44100.wav -m temp/modulator_signal_44100.wav -o temp/output.wav`
   );
 
-  execSync(
-    `./vocoder -c temp/carrier_white_noise.wav -m temp/modulator_signal_44100.wav -o temp/output.wav`
-  );
+  // execSync(
+  //   `./vocoder -c temp/carrier_white_noise.wav -m temp/modulator_signal_44100.wav -o temp/output.wav`
+  // );
 
   const outputBuffer = readFileSync("temp/output.wav");
   return {
