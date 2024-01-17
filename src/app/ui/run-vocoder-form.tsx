@@ -7,6 +7,42 @@ import MidiInput from "./midi-input";
 import ModulatorSignalInput from "./modulator-signal-input";
 import CarrierSignalInput from "./carrier-signal-input";
 import ShowWaveform from "./show-waveform";
+import SignalInput from "./signal-input";
+
+const defaultCarrierSignals = [
+  {
+    name: "sine",
+    label: "Sine wave",
+    filename: "/sine_example.wav",
+    imagename: "sine_waveform.png",
+  },
+  {
+    name: "square",
+    label: "Square wave",
+    filename: "/square_example.wav",
+    imagename: "square_waveform.png",
+  },
+  {
+    name: "triangle",
+    label: "Triangle wave",
+    filename: "/triangle_example.wav",
+    imagename: "triangle_waveform.png",
+  },
+  {
+    name: "sawtooth",
+    label: "Sawtooth wave",
+    filename: "/sawtooth_example.wav",
+    imagename: "sawtooth_waveform.png",
+  },
+];
+
+const defaultModulatorSignals = [
+  {
+    name: "hello",
+    label: "Hello example",
+    filename: "/hello_example.wav",
+  },
+];
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -26,7 +62,7 @@ function base64ToArrayBuffer(base64) {
   var binaryString = atob(base64);
   var bytes = new Uint8Array(binaryString.length);
   for (var i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
+    bytes[i] = binaryString.charCodeAt(i);
   }
   return bytes.buffer;
 }
@@ -39,6 +75,12 @@ export default function RunVocoderForm() {
     const blob = await fetch(modulatorSignalPath).then((r) => r.blob());
     formData.set("modulator-signal", blob);
 
+    // add carrier signal to formData
+    const carrierSignalPath = formData.get("carrier-signal");
+    if (!carrierSignalPath) return;
+    const blob2 = await fetch(carrierSignalPath).then((r) => r.blob());
+    formData.set("carrier-signal", blob2);
+
     return await runVocoder(prevState, formData);
   }
 
@@ -47,16 +89,23 @@ export default function RunVocoderForm() {
   const blob = state.buffer
     ? new Blob([base64ToArrayBuffer(state.buffer)], { type: ".wav" })
     : undefined;
-  // console.log(blob && URL.createObjectURL(blob))
 
   return (
     <div>
       <form action={dispatch} className="">
         <div className="flex gap-8">
-          <CarrierSignalInput />
-          <div className="flex-grow">
-            <ModulatorSignalInput />
-          </div>
+          <SignalInput
+            initialSignals={defaultCarrierSignals}
+            defaultSignalName="sine"
+            formInputLabel="Carrier Signal"
+            signalType="carrier"
+          />
+          <SignalInput
+            initialSignals={defaultModulatorSignals}
+            defaultSignalName="hello"
+            formInputLabel="Modulator Signal"
+            signalType="modulator"
+          />
         </div>
         <div className="mt-4">
           <MidiInput />
