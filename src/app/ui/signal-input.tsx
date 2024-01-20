@@ -2,12 +2,10 @@
 
 import {
   Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Select,
   SelectItem,
   useDisclosure,
@@ -16,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import RecordPlugin from "wavesurfer.js/dist/plugins/record";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
+import CreateSignalInputModal from "./create-signal-input-modal";
 
 export default function SignalInput({
   initialSignals,
@@ -24,19 +23,16 @@ export default function SignalInput({
   signalType,
 }) {
   const [signals, setSignals] = useState(initialSignals);
-  const [formError, setFormError] = useState<string>("");
   const [value, setValue] = useState(new Set([defaultSignalName]));
   const [isPlaying, setIsPlaying] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [createFromFile, setCreateFromFile] = useState(true); // controls if the modal should create signal from file or record audio
 
   const selectedSignal = signals.find((c) => c.name === [...value][0]);
 
   const wavesurferRef = useRef();
 
   const plugins = [
-    {
-      plugin: RecordPlugin,
-    },
     {
       plugin: TimelinePlugin,
       options: {
@@ -55,8 +51,6 @@ export default function SignalInput({
     wavesurferRef.current = waveSurfer;
 
     if (wavesurferRef.current) {
-      // console.log(wavesurferRef.current.plugins[0].startRecording())
-
       wavesurferRef.current.on("ready", () => {
         // console.log("WaveSurfer is ready");
       });
@@ -77,25 +71,6 @@ export default function SignalInput({
       //   window.surferidze = wavesurferRef.current;
       // }
     }
-  };
-
-  const createSignal = (onClose, formData: FormData) => {
-    if (!formData.get("name") || !formData.get("file")) {
-      setFormError("Please specify a name and audio file");
-      return;
-    }
-
-    setSignals((prev) => [
-      ...prev,
-      {
-        name: formData.get("name"),
-        label: formData.get("name"),
-        filename: URL.createObjectURL(formData.get("file")),
-      },
-    ]);
-
-    setFormError("");
-    onClose();
   };
 
   return (
@@ -119,7 +94,31 @@ export default function SignalInput({
             </SelectItem>
           ))}
         </Select>
-        <Button onPress={onOpen}>Add new</Button>
+        <Dropdown>
+          <DropdownTrigger>
+            <Button>Create</Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Select how to create a new signal">
+            <DropdownItem
+              key="file"
+              onPress={() => {
+                setCreateFromFile(true);
+                onOpen();
+              }}
+            >
+              From file
+            </DropdownItem>
+            <DropdownItem
+              key="recording"
+              onPress={() => {
+                setCreateFromFile(false);
+                onOpen();
+              }}
+            >
+              From recording
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
       <div>
         <WaveSurfer plugins={plugins} onMount={handleWSMount}>
@@ -140,46 +139,13 @@ export default function SignalInput({
           </Button>
         </div>
       </div>
-      <Modal
+      <CreateSignalInputModal
         isOpen={isOpen}
-        onOpenChange={() => {
-          setFormError("");
-          onOpenChange();
-        }}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <form action={(formData) => createSignal(onClose, formData)}>
-              <ModalHeader className="flex flex-col gap-1">
-                {`Create a new ${signalType} signal`}
-              </ModalHeader>
-              <ModalBody>
-                <Input label="Name" name="name" labelPlacement="outside-left" />
-                <div className="flex">
-                  <label htmlFor="file" className="text-sm">
-                    Upload Signal
-                  </label>
-                  <input
-                    id={`file-${signalType}`}
-                    name="file"
-                    type="file"
-                    accept="audio/*"
-                  />
-                </div>
-                {formError && <p className="text-red-600">{formError}</p>}
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button color="primary" type="submit">
-                  Create
-                </Button>
-              </ModalFooter>
-            </form>
-          )}
-        </ModalContent>
-      </Modal>
+        onOpenChange={onOpenChange}
+        signalType={signalType}
+        setSignals={setSignals}
+        createFromFile={createFromFile}
+      />
     </div>
   );
 }
