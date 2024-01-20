@@ -1,8 +1,12 @@
 import { Button, Switch } from "@nextui-org/react";
 import { FaCircleInfo } from "react-icons/fa6";
 import RunVocoderForm from "./ui/run-vocoder-form";
+import { initFbase } from "../../firebase/firebaseApp";
 
 export default function Home() {
+
+  const app = initFbase();
+
   return (
     <main className="flex flex-col h-screen">
       <header className="flex justify-between p-4 bg-blue-300 drop-shadow">
