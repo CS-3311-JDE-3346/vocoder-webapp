@@ -1,11 +1,22 @@
+'use client'
+
 import { Button, Switch } from "@nextui-org/react";
 import { FaCircleInfo } from "react-icons/fa6";
 import RunVocoderForm from "./ui/run-vocoder-form";
 import { initFbase } from "../../firebase/firebaseApp";
+import { getAuth, signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Home() {
 
-  const app = initFbase();
+  initFbase();
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  const [user, loading] = useAuthState(auth);
+
+  const signIn = async () => {
+    const result = await signInWithRedirect(auth, provider);
+  }
 
   return (
     <main className="flex flex-col h-screen">
@@ -16,6 +27,8 @@ export default function Home() {
           <Button className="bg-blue-700 text-slate-300">File</Button>
         </div>
         <div className="flex">
+          <Button onClick={signIn} className="bg-blue-700 text-slate-300">Sign In</Button>
+          <Button onClick={signIn} className="bg-blue-700 text-slate-300">Sign Out</Button>
           <Switch
             defaultChecked={false}
             color="primary"
