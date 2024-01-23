@@ -3,13 +3,13 @@
 import { Button, Switch } from "@nextui-org/react";
 import { FaCircleInfo } from "react-icons/fa6";
 import RunVocoderForm from "./ui/run-vocoder-form";
-import { initFbase } from "../../firebase/firebaseApp";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { app } from "../../firebase/firebaseApp";
 
 export default function Home() {
 
-  initFbase();
+  app;
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const [user, loading] = useAuthState(auth);
