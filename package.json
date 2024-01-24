@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
+    "firebase": "^10.7.2",
     "framer-motion": "^10.16.5",
     "fs": "^0.0.1-security",
     "midi-parser-js": "^4.0.4",
-    "next": "^14.0.1",
+    "next": "^14.1.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-firebase-hooks": "^5.1.1",
     "react-icons": "^4.12.0",
     "wavesurfer-react": "^2.2.3",
     "wavesurfer.js": "^7.4.5"
