@@ -7,6 +7,7 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - Users can now upload a custom carrier signal
 - Users can record their own modulator signal directly on the website
 - Users can sign in and sign out
+- Users can apply filters to carrier and modulator signal.
 
 ### Bug Fixes
 - None yet
