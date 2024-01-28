@@ -16,6 +16,7 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - Creating a new waveform with the same name as an existing waveform creates an error
 - Users can upload non .wav files, but backend assumes it recieves a .wav file
 - Recording a modulator signal should display a border around the empty waveform
+- Attempting to build the backend leads to a segmentation fault.
 
 # Sprint 1 Notes
 For Sprint 1, we focused on the front end on creating the basic main vocoder page. This is because
