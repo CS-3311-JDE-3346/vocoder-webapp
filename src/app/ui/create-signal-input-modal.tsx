@@ -16,6 +16,7 @@ export default function CreateSignalInputModal({
   isOpen,
   onOpenChange,
   signalType,
+  signals,
   setSignals,
   createFromFile,
 }) {
@@ -64,8 +65,20 @@ export default function CreateSignalInputModal({
   };
 
   const createSignalFromFile = (onClose, formData: FormData) => {
-    if (!formData.get("name") || !formData.get("file")) {
+    if (
+      !formData.get("name") ||
+      !formData.get("file") ||
+      !formData.get("file").size
+    ) {
       setFormError("Please specify a name and audio file");
+      return;
+    }
+
+    const nameExists = signals.some(
+      (signal) => signal.name === formData.get("name")
+    );
+    if (nameExists) {
+      setFormError("A signal with the same name already exists");
       return;
     }
 
@@ -85,6 +98,14 @@ export default function CreateSignalInputModal({
   const createSignalFromRecording = (onClose, formData: FormData) => {
     if (!formData.get("name") || !recordingUrl) {
       setFormError("Please specify a name and record an audio clip");
+      return;
+    }
+
+    const nameExists = signals.some(
+      (signal) => signal.name === formData.get("name")
+    );
+    if (nameExists) {
+      setFormError("A signal with the same name already exists");
       return;
     }
 
