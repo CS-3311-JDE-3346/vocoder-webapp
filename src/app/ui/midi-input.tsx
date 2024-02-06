@@ -10,37 +10,88 @@ import {
   SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
-import { useState } from "react";
-let MidiParser = require('midi-parser-js');
+import { useEffect, useRef, useState } from "react";
+import {
+  NoteSequence,
+  Player,
+  Visualizer,
+  urlToNoteSequence,
+} from "@magenta/music";
+let MidiParser = require("midi-parser-js");
 
 const defaultMIDISignals = [
   {
-    name: "hello",
-    label: "Hello example",
-    filename: "/hello_example.mid",
+    name: "Twinkle Twinkle Little Star",
+    label: "Twinkle Twinkle Little Star",
+    filename: "/twinkle_twinkle_little_star.mid",
   },
 ];
 
 export default function MidiInput() {
   const [MIDIsignals, setMIDIsignals] = useState(defaultMIDISignals);
   const [formError, setFormError] = useState<string>("");
-  const [value, setValue] = useState(new Set(["hello"]));
+  const [value, setValue] = useState(new Set(["Twinkle Twinkle Little Star"]));
   const [isPlaying, setIsPlaying] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const [currentNoteSequence, setCurrentNoteSequence] =
+    useState<NoteSequence | null>();
+
+  const vizRef = useRef<Visualizer>();
+  const vizPlayerRef = useRef<Player>();
+
+  const selectedMidi = MIDIsignals.find((c) => c.name === [...value][0]);
+  useEffect(() => {
+    const innerFunc = async () => {
+      if (!selectedMidi) return;
+
+      const noteSequence = await urlToNoteSequence(selectedMidi.filename);
+      setCurrentNoteSequence(noteSequence);
+    };
+    innerFunc();
+  }, [selectedMidi]);
+
+  useEffect(() => {
+    const innerFunc = async () => {
+      if (!currentNoteSequence) return;
+      const viz = new Visualizer(
+        currentNoteSequence,
+        document.getElementById("canvas")
+      );
+      vizRef.current = viz;
+
+      if (vizPlayerRef.current) {
+        vizPlayerRef.current.stop();
+        setIsPlaying(false);
+      }
+
+      const vizPlayer = new Player(false, {
+        run: (note) => viz.redraw(note),
+        stop: () => {},
+      });
+      vizPlayerRef.current = vizPlayer;
+    };
+    innerFunc();
+  }, [currentNoteSequence]);
+
   const createMidiInput = (onClose, formData: FormData) => {
-    if (!formData.get("name") || !formData.get("file")) {
+    const name = formData.get("name")?.toString();
+    const file: File | null = formData.get("file");
+    if (!name || !file) {
       setFormError("Please specify a name and audio file");
       return;
     }
-    //add in another condition to not allow file types that are not .mid or .midi
 
+    if (file.type !== "audio/midi") {
+      setFormError("File must end in .midi");
+      return;
+    }
     setMIDIsignals((prev) => [
       ...prev,
       {
-        name: formData.get("name"),
-        label: formData.get("name"),
-        filename: URL.createObjectURL(formData.get("file")),
+        name: name,
+        label: name,
+        filename: URL.createObjectURL(file),
       },
     ]);
 
@@ -48,20 +99,11 @@ export default function MidiInput() {
     onClose();
   };
 
-  const displayMidiInput = (file) => {
-    var midi = MidiParser.parse(file);
-    //find a way to visualize the midi files
-  }
-  
+  const vizPlayer = vizPlayerRef.current;
   return (
     <div className="p-2 rounded-lg drop-shadow-md bg-white">
       <div className="flex gap-4">
-        <input
-          className="hidden"
-          name="modulator-signal"
-          readOnly
-          //value
-        />
+        <input className="hidden" name="modulator-signal" readOnly />
         <Select
           label="MIDI Input"
           selectedKeys={value}
@@ -75,9 +117,49 @@ export default function MidiInput() {
         </Select>
         <Button onPress={onOpen}>Upload</Button>
       </div>
-      <div>
-        Display Contents of Midi File
+      <div className="overflow-x-auto mb-4">
+        <canvas id="canvas"></canvas>
       </div>
+      {vizPlayer &&
+        (isPlaying ? (
+          <Button
+            onPress={() => {
+              vizPlayer.pause();
+              setIsPlaying(false);
+            }}
+          >
+            Pause
+          </Button>
+        ) : (
+          <Button
+            onPress={() => {
+              if (vizPlayer.getPlayState() === "paused") {
+                vizPlayer.resume();
+              } else {
+                vizPlayer.start(currentNoteSequence);
+              }
+              setIsPlaying(true);
+            }}
+          >
+            Play
+          </Button>
+        ))}
+      {vizPlayer && (
+        <Button
+          onPress={() => {
+            if (vizPlayer.getPlayState() !== "stopped") {
+              vizPlayer.seekTo(0);
+              vizPlayer.stop();
+              setIsPlaying(false);
+
+              vizRef.current?.clearActiveNotes();
+            }
+          }}
+          className="ml-4"
+        >
+          Restart
+        </Button>
+      )}
       <Modal
         isOpen={isOpen}
         onOpenChange={() => {
@@ -87,16 +169,19 @@ export default function MidiInput() {
       >
         <ModalContent>
           {(onClose) => (
-            <form
-              action={(formData) => createMidiInput(onClose, formData)}
-            >
+            <form action={(formData) => createMidiInput(onClose, formData)}>
               <ModalHeader className="flex flex-col gap-1">
                 Create a new MIDI Input
               </ModalHeader>
               <ModalBody>
                 <Input label="Name" name="name" labelPlacement="outside-left" />
                 <div className="flex">
-                  <input id="file" name="file" type="file" accept="audio/*" />
+                  <input
+                    id="file"
+                    name="file"
+                    type="file"
+                    accept="audio/midi"
+                  />
                 </div>
                 {formError && <p className="text-red-600">{formError}</p>}
               </ModalBody>
@@ -113,5 +198,5 @@ export default function MidiInput() {
         </ModalContent>
       </Modal>
     </div>
-  )
+  );
 }
