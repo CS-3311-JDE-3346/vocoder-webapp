@@ -148,6 +148,7 @@ export default function SignalInput({
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         signalType={signalType}
+        signals={signals}
         setSignals={setSignals}
         createFromFile={createFromFile}
       />
