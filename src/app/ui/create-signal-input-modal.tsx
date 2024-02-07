@@ -44,6 +44,11 @@ export default function CreateSignalInputModal({
     record.on("record-end", (blob) => {
       setRecordingUrl(URL.createObjectURL(blob));
     });
+    const containerElement = document.getElementById("waveform-record");
+    if (containerElement) {
+      containerElement.style.border = "1px solid gray";
+      containerElement.style.borderRadius = "4px";
+    }
 
     if (wavesurferRef.current) {
       wavesurferRef.current.on("ready", () => {
@@ -173,6 +178,7 @@ export default function CreateSignalInputModal({
                           setIsRecording(false);
                         }
                       }}
+                      className="mt-4"
                     >
                       Stop
                     </Button>
@@ -185,6 +191,7 @@ export default function CreateSignalInputModal({
                           setIsRecording(true);
                         }
                       }}
+                      className="mt-4"
                     >
                       {recordingUrl ? "Re-record" : "Record"}
                     </Button>
