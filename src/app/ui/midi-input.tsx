@@ -14,10 +14,10 @@ import { useEffect, useRef, useState } from "react";
 import {
   NoteSequence,
   Player,
-  Visualizer,
+  PianoRollCanvasVisualizer,
   urlToNoteSequence,
 } from "@magenta/music";
-let MidiParser = require("midi-parser-js");
+import * as Tone from "tone";
 
 const defaultMIDISignals = [
   {
@@ -37,7 +37,7 @@ export default function MidiInput() {
   const [currentNoteSequence, setCurrentNoteSequence] =
     useState<NoteSequence | null>();
 
-  const vizRef = useRef<Visualizer>();
+  const vizRef = useRef<PianoRollCanvasVisualizer>();
   const vizPlayerRef = useRef<Player>();
 
   const selectedMidi = MIDIsignals.find((c) => c.name === [...value][0]);
@@ -54,7 +54,7 @@ export default function MidiInput() {
   useEffect(() => {
     const innerFunc = async () => {
       if (!currentNoteSequence) return;
-      const viz = new Visualizer(
+      const viz = new PianoRollCanvasVisualizer(
         currentNoteSequence,
         document.getElementById("canvas")
       );
@@ -64,12 +64,6 @@ export default function MidiInput() {
         vizPlayerRef.current.stop();
         setIsPlaying(false);
       }
-
-      const vizPlayer = new Player(false, {
-        run: (note) => viz.redraw(note),
-        stop: () => {},
-      });
-      vizPlayerRef.current = vizPlayer;
     };
     innerFunc();
   }, [currentNoteSequence]);
@@ -99,7 +93,7 @@ export default function MidiInput() {
     onClose();
   };
 
-  const vizPlayer = vizPlayerRef.current;
+  let vizPlayer = vizPlayerRef.current;
   return (
     <div className="p-2 rounded-lg drop-shadow-md bg-white">
       <div className="flex gap-4">
@@ -120,34 +114,44 @@ export default function MidiInput() {
       <div className="overflow-x-auto mb-4">
         <canvas id="canvas"></canvas>
       </div>
-      {vizPlayer &&
-        (isPlaying ? (
-          <Button
-            onPress={() => {
-              vizPlayer.pause();
-              setIsPlaying(false);
-            }}
-          >
-            Pause
-          </Button>
-        ) : (
-          <Button
-            onPress={() => {
-              if (vizPlayer.getPlayState() === "paused") {
-                vizPlayer.resume();
-              } else {
-                vizPlayer.start(currentNoteSequence);
-              }
-              setIsPlaying(true);
-            }}
-          >
-            Play
-          </Button>
-        ))}
-      {vizPlayer && (
+      {isPlaying ? (
         <Button
           onPress={() => {
-            if (vizPlayer.getPlayState() !== "stopped") {
+            if (vizPlayer) {
+              vizPlayer.pause();
+              setIsPlaying(false);
+            }
+          }}
+        >
+          Pause
+        </Button>
+      ) : (
+        <Button
+          onPress={async () => {
+            await Tone.start();
+            if (!vizPlayer) {
+              vizPlayer = new Player(false, {
+                run: (note) => vizRef.current.redraw(note),
+                stop: () => {},
+              });
+              vizPlayerRef.current = vizPlayer;
+            }
+
+            if (vizPlayer.getPlayState() === "paused") {
+              vizPlayer.resume();
+            } else {
+              vizPlayer.start(currentNoteSequence);
+            }
+            setIsPlaying(true);
+          }}
+        >
+          Play
+        </Button>
+      )}
+      {
+        <Button
+          onPress={() => {
+            if (vizPlayer && vizPlayer.getPlayState() !== "stopped") {
               vizPlayer.seekTo(0);
               vizPlayer.stop();
               setIsPlaying(false);
@@ -159,7 +163,7 @@ export default function MidiInput() {
         >
           Restart
         </Button>
-      )}
+      }
       <Modal
         isOpen={isOpen}
         onOpenChange={() => {
