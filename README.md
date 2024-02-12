@@ -21,6 +21,11 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - Recording a modulator signal should display a border around the empty waveform
 - Attempting to build the backend leads to a segmentation fault.
 
+## Version 0.2.0
+
+### Bug Fixes
+- Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
+
 # Sprint 1 Notes
 For Sprint 1, we focused on the front end on creating the basic main vocoder page. This is because
 our main goal for the first sprint was to get a basic vocoder working so that we could then
@@ -28,10 +33,6 @@ build out future educational aspects off the basic vocoder. We thought that this
 easier for us as well as coding out the vocoder ourselves would also give us knowledge in vocoders
 ourselves, which would make implementing the educational aspects later even easier for us.
 
-## Version 0.2.0
-
-### Bug Fixes
-- Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
 
 Our technologies used are Next.js, React, and JUCE, and the programming languages used are JavaScript, HTML, CSS, and C. Since this is a website, it can work on any platform or device with a web browser.
 
