@@ -22,6 +22,9 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - Attempting to build the backend leads to a segmentation fault.
 
 ## Version 0.2.0
+### New Features
+ - Users can now navigate to a learning page
+ - Users can now upload and listen to midi files
 
 ### Bug Fixes
 - Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
