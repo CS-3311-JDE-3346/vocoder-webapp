@@ -6,6 +6,7 @@ import RunVocoderForm from "./ui/run-vocoder-form";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { app } from "../../firebase/firebaseApp";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -50,7 +51,7 @@ export default function Home() {
       </div>
       <footer className="p-4">
         <Button color="secondary" className="float-right">
-          Learn More About Vocoders!
+          <Link href="/education">Learn More About Vocoders!</Link>
         </Button>
       </footer>
     </main>
