@@ -26,6 +26,11 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 ### Bug Fixes
 - Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
 
+### Known Issues
+- User can unselect a midi file, resulting in undefined behavior
+- Midi file not linked to carrier signal yet, so currently not very useful
+- Selecting an invalid midi file results in an error
+
 # Sprint 1 Notes
 For Sprint 1, we focused on the front end on creating the basic main vocoder page. This is because
 our main goal for the first sprint was to get a basic vocoder working so that we could then
