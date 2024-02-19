@@ -137,12 +137,14 @@ export default function SignalInput({
           >
             Restart
           </Button>
+          <Button className="ml-4">Filter</Button>
         </div>
       </div>
       <CreateSignalInputModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         signalType={signalType}
+        signals={signals}
         setSignals={setSignals}
         createFromFile={createFromFile}
       />

@@ -11,25 +11,25 @@ import SignalInput from "./signal-input";
 
 const defaultCarrierSignals = [
   {
-    name: "sine",
+    name: "Sine wave",
     label: "Sine wave",
     filename: "/sine_example.wav",
     imagename: "sine_waveform.png",
   },
   {
-    name: "square",
+    name: "Square wave",
     label: "Square wave",
     filename: "/square_example.wav",
     imagename: "square_waveform.png",
   },
   {
-    name: "triangle",
+    name: "Triangle wave",
     label: "Triangle wave",
     filename: "/triangle_example.wav",
     imagename: "triangle_waveform.png",
   },
   {
-    name: "sawtooth",
+    name: "Sawtooth wave",
     label: "Sawtooth wave",
     filename: "/sawtooth_example.wav",
     imagename: "sawtooth_waveform.png",
@@ -38,7 +38,7 @@ const defaultCarrierSignals = [
 
 const defaultModulatorSignals = [
   {
-    name: "hello",
+    name: "Hello example",
     label: "Hello example",
     filename: "/hello_example.wav",
   },
@@ -96,13 +96,13 @@ export default function RunVocoderForm() {
         <div className="flex gap-8">
           <SignalInput
             initialSignals={defaultCarrierSignals}
-            defaultSignalName="sine"
+            defaultSignalName="Sine wave"
             formInputLabel="Carrier Signal"
             signalType="carrier"
           />
           <SignalInput
             initialSignals={defaultModulatorSignals}
-            defaultSignalName="hello"
+            defaultSignalName="Hello example"
             formInputLabel="Modulator Signal"
             signalType="modulator"
           />
