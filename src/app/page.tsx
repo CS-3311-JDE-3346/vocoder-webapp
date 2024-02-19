@@ -29,8 +29,8 @@ export default function Home() {
           Learn More About Vocoders!
         </Button>
       </footer>
-      <script src="\\wsl.localhost\kali-linux\home\matth\Desktop\dev\projects\3346-vocoder-juce\Builds\Emscripten\vocoder.js"></script> {/* REPLACE THIS WITH YOUR PATH TO WSL BACKEND */}
-      <script src="\\wsl.localhost\kali-linux\home\matth\Desktop\dev\projects\3346-vocoder-juce\Builds\Emscripten\fileio.js"></script> {/* REPLACE THIS WITH YOUR PATH TO WSL BACKEND */}
+      <script src="vocoder.js"></script>
+      <script src="fileio.js"></script>
     </main>
   );
 }
