@@ -5,6 +5,21 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 ![logo](src/app/favicon.ico)
 
 # Release Notes
+## Version 0.2.0
+### New Features
+ - Users can now navigate to a learning page
+ - Users can now upload and listen to midi files
+
+### Bug Fixes
+- Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
+- Creating a new waveform with the same name as an existing waveform creates an error
+- Recording a modulator signal should display a border around the empty waveform
+
+### Known Issues
+- User can unselect a midi file, resulting in undefined behavior
+- Midi file not linked to carrier signal yet, so currently not very useful
+- Selecting an invalid midi file results in an error
+
 ## Version 0.1.0
 ### New Features
 - Users can now upload a custom carrier signal
@@ -20,19 +35,6 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - Users can upload non .wav files, but backend assumes it recieves a .wav file
 - Recording a modulator signal should display a border around the empty waveform
 - Attempting to build the backend leads to a segmentation fault.
-
-## Version 0.2.0
-### New Features
- - Users can now navigate to a learning page
- - Users can now upload and listen to midi files
-
-### Bug Fixes
-- Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
-
-### Known Issues
-- User can unselect a midi file, resulting in undefined behavior
-- Midi file not linked to carrier signal yet, so currently not very useful
-- Selecting an invalid midi file results in an error
 
 # Sprint 1 Notes
 For Sprint 1, we focused on the front end on creating the basic main vocoder page. This is because
