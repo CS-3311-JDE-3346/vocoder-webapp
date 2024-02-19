@@ -3,7 +3,7 @@ import { FaCircleInfo } from "react-icons/fa6";
 import RunVocoderForm from "./ui/run-vocoder-form";
 
 export default function Home() {
-  return (
+  return (   
     <main className="flex flex-col h-screen">
       <header className="flex justify-between p-4 bg-blue-300 drop-shadow">
         <div className="flex items-center">
@@ -29,6 +29,8 @@ export default function Home() {
           Learn More About Vocoders!
         </Button>
       </footer>
+      <script src="\\wsl.localhost\kali-linux\home\matth\Desktop\dev\projects\3346-vocoder-juce\Builds\Emscripten\vocoder.js"></script> {/* REPLACE THIS WITH YOUR PATH TO WSL BACKEND */}
+      <script src="\\wsl.localhost\kali-linux\home\matth\Desktop\dev\projects\3346-vocoder-juce\Builds\Emscripten\fileio.js"></script> {/* REPLACE THIS WITH YOUR PATH TO WSL BACKEND */}
     </main>
   );
 }
