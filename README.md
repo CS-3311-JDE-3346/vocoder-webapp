@@ -1,16 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-We also used HTML, CSS, JavaScript, and [React](https://react.dev/) in the implementation of our NextJS software.
+# Learn Vocoders
+Learn Vocoders is a website that helps users learn more about vocoders! Users will eventually be able to run a vocoder, learn more about vocoders, and save their progress via their account. This repository houses the frontend portion of the app, created using NextJS.
 
-## Sprint 1 Notes
+
+![logo](src/app/favicon.ico)
+
+# Release Notes
+## Version 0.1.0
+### New Features
+- Users can now upload a custom carrier signal
+- Users can record their own modulator signal directly on the website
+- Users can sign in and sign out
+- Users can apply filters to carrier and modulator signal.
+
+### Bug Fixes
+- None yet
+
+### Known Issues
+- Creating a new waveform with the same name as an existing waveform creates an error
+- Users can upload non .wav files, but backend assumes it recieves a .wav file
+- Recording a modulator signal should display a border around the empty waveform
+- Attempting to build the backend leads to a segmentation fault.
+
+## Version 0.2.0
+### New Features
+ - Users can now navigate to a learning page
+ - Users can now upload and listen to midi files
+
+### Bug Fixes
+- Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
+
+### Known Issues
+- User can unselect a midi file, resulting in undefined behavior
+- Midi file not linked to carrier signal yet, so currently not very useful
+- Selecting an invalid midi file results in an error
+
+# Sprint 1 Notes
 For Sprint 1, we focused on the front end on creating the basic main vocoder page. This is because
 our main goal for the first sprint was to get a basic vocoder working so that we could then
 build out future educational aspects off the basic vocoder. We thought that this way would be
 easier for us as well as coding out the vocoder ourselves would also give us knowledge in vocoders
 ourselves, which would make implementing the educational aspects later even easier for us.
 
+
 Our technologies used are Next.js, React, and JUCE, and the programming languages used are JavaScript, HTML, CSS, and C. Since this is a website, it can work on any platform or device with a web browser.
 
-## Getting Started
+# Getting Started
 
 First, run the development server:
 
@@ -29,21 +63,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 # References
 Sound files: https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/
