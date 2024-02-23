@@ -2,13 +2,21 @@
 Learn Vocoders is a website that helps users learn more about vocoders! Users will eventually be able to run a vocoder, learn more about vocoders, and save their progress via their account. This repository houses the frontend portion of the app, created using NextJS.
 
 # Release Notes
+## Version 0.3.0
+### New Features
+- Users can now export learning content as PDF.
+
+### Bug Fixes
+
+### Known Issues
+
 ## Version 0.2.0
 ### New Features
  - Users can now navigate to a learning page
  - Users can now upload and listen to midi files
 
 ### Bug Fixes
-- Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
+- Identity of back-end setup segmentation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
 - Creating a new waveform with the same name as an existing waveform creates an error
 - Recording a modulator signal should display a border around the empty waveform
 
