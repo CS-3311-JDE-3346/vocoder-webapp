@@ -9,7 +9,6 @@ import { app } from "../../firebase/firebaseApp";
 import Link from "next/link";
 
 export default function Home() {
-
   app;
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -54,6 +53,8 @@ export default function Home() {
           <Link href="/education">Learn More About Vocoders!</Link>
         </Button>
       </footer>
+      <script src="vocoder.js"></script>
+      <script src="fileio.js"></script>
     </main>
   );
 }
