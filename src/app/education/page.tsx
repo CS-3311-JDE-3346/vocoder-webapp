@@ -9,6 +9,7 @@ import { app } from "../../../firebase/firebaseApp";
 import Link from "next/link";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
 
+
 export default function Home() {
 
     app;
@@ -72,8 +73,10 @@ export default function Home() {
                           </p>
                         </ModalBody>
                         <ModalFooter className="flex-row flex justify-between">
-                          <Button className="flex justify-between bg-blue-700 text-slate-300">Download as PDF</Button>
-                          <Button className="flext justify-between bg-blue-700 text-slate-300" onPress={onClose}>Close</Button>
+                          <a href={"/vocoder_learning_content.pdf"} download="/vocoder_learning_content.pdf" target='_blank'>
+                            <Button className="flex justify-between bg-blue-700 text-slate-300">Download as PDF</Button>
+                          </a>
+                          <Button className="flext justify-between bg-blue-700 text-slate-300" onClick={onClose}>Close</Button>
                         </ModalFooter>
                       </>
                     )}
