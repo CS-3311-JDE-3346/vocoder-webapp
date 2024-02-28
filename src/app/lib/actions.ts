@@ -3,7 +3,6 @@
 import { execSync } from "child_process";
 import { readFileSync, writeFileSync } from "fs";
 
-
 export async function runVocoder(prevState: any, formData: FormData) {
   const carrierSignal = formData.get("carrier-signal") as File;
   const modulatorSignal = formData.get("modulator-signal") as File;
