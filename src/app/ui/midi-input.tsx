@@ -97,7 +97,12 @@ export default function MidiInput() {
   return (
     <div className="p-2 rounded-lg drop-shadow-md bg-white">
       <div className="flex gap-4">
-        <input className="hidden" name="modulator-signal" readOnly />
+        <input
+          className="hidden"
+          name="midi-input"
+          readOnly
+          value={selectedMidi?.filename}
+        />
         <Select
           label="MIDI Input"
           selectedKeys={value}

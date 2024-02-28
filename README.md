@@ -5,6 +5,7 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 ## Version 0.3.0
 ### New Features
 - Users can now export learning content as PDF.
+- Users can now specify the midi file to be used in the vocoder
 
 ### Bug Fixes
 
@@ -52,7 +53,11 @@ ourselves, which would make implementing the educational aspects later even easi
 Our technologies used are Next.js, React, and JUCE, and the programming languages used are JavaScript, HTML, CSS, and C. Since this is a website, it can work on any platform or device with a web browser.
 
 # Getting Started
+## Installation
+Ensure Node, ffmpeg, and fluidsynth are installed on your system
+Run `npm i`
 
+## Local Development
 First, run the development server:
 
 ```bash
@@ -73,3 +78,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 # References
 Sound files: https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/
+Sound fonts: https://sites.google.com/site/soundfonts4u/ 
