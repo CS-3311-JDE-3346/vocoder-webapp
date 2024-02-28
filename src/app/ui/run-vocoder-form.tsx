@@ -9,6 +9,8 @@ import CarrierSignalInput from "./carrier-signal-input";
 import ShowWaveform from "./show-waveform";
 import SignalInput from "./signal-input";
 
+const synth = require("synth-js");
+
 const defaultCarrierSignals = [
   {
     name: "Sine wave",
@@ -75,11 +77,14 @@ export default function RunVocoderForm() {
     const blob = await fetch(modulatorSignalPath).then((r) => r.blob());
     formData.set("modulator-signal", blob);
 
-    // add carrier signal to formData
-    const carrierSignalPath = formData.get("carrier-signal");
+    // add carrier signal to formData by synthesizing midi file
+    const carrierSignalPath = formData.get("midi-input");
     if (!carrierSignalPath) return;
-    const blob2 = await fetch(carrierSignalPath).then((r) => r.blob());
-    formData.set("carrier-signal", blob2);
+    const midiBuffer = await fetch(carrierSignalPath)
+      .then((r) => r.blob())
+      .then((b) => b.arrayBuffer());
+    const wavBuffer = new Blob([synth.midiToWav(midiBuffer).toBuffer()]);
+    formData.set("carrier-signal", wavBuffer);
 
     return await runVocoder(prevState, formData);
   }
