@@ -2,7 +2,6 @@
 
 import { Button, Switch, useDisclosure } from "@nextui-org/react";
 import { FaCircleInfo } from "react-icons/fa6";
-import RunVocoderForm from "../ui/run-vocoder-form";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { app } from "../../../firebase/firebaseApp";
@@ -107,7 +106,11 @@ export default function Home() {
                               <li>Favorite Color - Carly Rae Jepsen</li>
                               <li>Almost every Daft Punk song</li>
                             </ul></b>
-                            These are only the few of the massive amounts of music that use vocoders in them.
+                          </p>
+                          <p>
+                            These are only the few of the massive amounts of music that use vocoders in them. We hope that
+                            this website is the start of a journey for you to be able to produce music like this in the
+                            future.
                           </p>
                         </ModalBody>
                         <ModalFooter className="flex-row flex justify-between">
