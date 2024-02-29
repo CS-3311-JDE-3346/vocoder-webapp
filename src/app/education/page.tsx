@@ -16,7 +16,8 @@ export default function Home() {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     const [user, loading] = useAuthState(auth);
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const modal1 = useDisclosure();
+    const modal2 = useDisclosure();
   
     const signIn = async () => {
       const result = await signInWithPopup(auth, provider);
@@ -44,15 +45,14 @@ export default function Home() {
           </header>
           <div className="flex-grow p-4">
             <div className="flex-col text-center">
-              <h2 className="mr-8 text-slate-800">Use the links below to navigate 
+              <h2 className="mr-8 text-slate-800">Use the buttons below to navigate 
                 to helpful outside resources on vocoders and other components of music production
               </h2>
               &nbsp;
               <div className="flex-row flex justify-between">
-                <Button className="basis-1/2 bg-blue-700 text-slate-300" onPress={onOpen}>Vocoder Basics</Button>
-                <Modal size="5xl" isOpen={isOpen} onOpenChange={onOpenChange}>
+                <Button className="basis-1/2 bg-blue-700 text-slate-300" onPress={modal1.onOpen}>Vocoder Basics</Button>
+                <Modal size="5xl" isOpen={modal1.isOpen} onOpenChange={modal1.onOpenChange} onClose={modal1.onClose}>
                   <ModalContent>
-                    {(onClose) => (
                       <>
                         <ModalHeader className="bg-blue-300"> Introduction to Vocoders </ModalHeader>
                         <ModalBody>
@@ -76,14 +76,49 @@ export default function Home() {
                           <a href={"/vocoder_learning_content.pdf"} download="/vocoder_learning_content.pdf" target='_blank'>
                             <Button className="flex justify-between bg-blue-700 text-slate-300">Download as PDF</Button>
                           </a>
-                          <Button className="flext justify-between bg-blue-700 text-slate-300" onClick={onClose}>Close</Button>
+                          <Button className="flext justify-between bg-blue-700 text-slate-300" onClick={modal1.onClose}>Close</Button>
                         </ModalFooter>
                       </>
-                    )}
                   </ModalContent>
                 </Modal>
                 &nbsp;
                 &nbsp;
+                <Button className="basis-1/2 bg-blue-700 text-slate-300" onPress={modal2.onOpen}>Songs with Vocoders</Button>
+                <Modal size="5xl" isOpen={modal2.isOpen} onOpenChange={modal2.onOpenChange} onClose={modal2.onClose}>
+                  <ModalContent>
+                      <>
+                        <ModalHeader className="bg-blue-300"> Where are Vocoders Used? </ModalHeader>
+                        <ModalBody>
+                          <p>
+                            So where are vocoders used? As one may guess, they are used in the creation of music.
+                            However, music production is not the only field of use. They are also used in other areas
+                            like telecommunications, speech coding, robotics, and security. They also find use in areas
+                            of entertainment like video games. In all of these fields, vocoders play a role in the audio
+                            systems and sounds that are commonly used in said fields.
+                          </p>
+                          <p>
+                            Looking at the field of music, there are many songs that use vocoders. Many of these songs
+                            are well known songs in the United States and around the world, sung by famous music artists.
+                            Some examples of famous songs that use vocoders are shown below.
+                            <b><ul className="text-center text-blue-400">
+                              <li>California Love - Tupac & Dr. Dre</li>
+                              <li>Intergalactic - Beastie Boys</li>
+                              <li>In the Air Tonight - Phil Collins</li>
+                              <li>Favorite Color - Carly Rae Jepsen</li>
+                              <li>Almost every Daft Punk song</li>
+                            </ul></b>
+                            These are only the few of the massive amounts of music that use vocoders in them.
+                          </p>
+                        </ModalBody>
+                        <ModalFooter className="flex-row flex justify-between">
+                          <a href={"/vocoder_learning_content.pdf"} download="/vocoder_learning_content.pdf" target='_blank'>
+                            <Button className="flex justify-between bg-blue-700 text-slate-300">Download as PDF</Button>
+                          </a>
+                          <Button className="flext justify-between bg-blue-700 text-slate-300" onClick={modal2.onClose}>Close</Button>
+                        </ModalFooter>
+                      </>
+                  </ModalContent>
+                </Modal>
               </div>
             </div>
           </div>
