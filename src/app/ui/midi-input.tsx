@@ -30,7 +30,7 @@ const defaultMIDISignals = [
 export default function MidiInput() {
   const [MIDIsignals, setMIDIsignals] = useState(defaultMIDISignals);
   const [formError, setFormError] = useState<string>("");
-  const [value, setValue] = useState(new Set(["Twinkle Twinkle Little Star"]));
+  const [value, setValue] = useState(["Twinkle Twinkle Little Star"]);
   const [isPlaying, setIsPlaying] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -43,7 +43,10 @@ export default function MidiInput() {
   const selectedMidi = MIDIsignals.find((c) => c.name === [...value][0]);
   useEffect(() => {
     const innerFunc = async () => {
-      if (!selectedMidi) return;
+      if (!selectedMidi) {
+        setCurrentNoteSequence(null);
+        return;
+      }
 
       const noteSequence = await urlToNoteSequence(selectedMidi.filename);
       setCurrentNoteSequence(noteSequence);
@@ -108,6 +111,8 @@ export default function MidiInput() {
           selectedKeys={value}
           onSelectionChange={setValue}
         >
+          <SelectItem value="">Select MIDI</SelectItem>
+          
           {MIDIsignals.map((midiSignal) => (
             <SelectItem key={midiSignal.name} value={midiSignal.name}>
               {midiSignal.label}
@@ -140,6 +145,11 @@ export default function MidiInput() {
                 stop: () => {},
               });
               vizPlayerRef.current = vizPlayer;
+            }
+
+            if (!currentNoteSequence) {
+              console.error("No MIDI selected");
+              return;
             }
 
             if (vizPlayer.getPlayState() === "paused") {
