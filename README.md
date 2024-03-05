@@ -2,13 +2,22 @@
 Learn Vocoders is a website that helps users learn more about vocoders! Users will eventually be able to run a vocoder, learn more about vocoders, and save their progress via their account. This repository houses the frontend portion of the app, created using NextJS.
 
 # Release Notes
+## Version 0.3.0
+### New Features
+- Users can now export learning content as PDF.
+- Users can now specify the midi file to be used in the vocoder
+
+### Bug Fixes
+
+### Known Issues
+
 ## Version 0.2.0
 ### New Features
  - Users can now navigate to a learning page
  - Users can now upload and listen to midi files
 
 ### Bug Fixes
-- Identity of back-end setup segmententation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
+- Identity of back-end setup segmentation fault uncovered. Attempting to run Projucer in a WSL shell, as opposed to a WSL desktop environment, might return a null pointer to a desktop instance whose members are attempted to be accessed. The solution is to configure a remote desktop in WSL and setup the back-end there.
 - Creating a new waveform with the same name as an existing waveform creates an error
 - Recording a modulator signal should display a border around the empty waveform
 
@@ -44,7 +53,11 @@ ourselves, which would make implementing the educational aspects later even easi
 Our technologies used are Next.js, React, and JUCE, and the programming languages used are JavaScript, HTML, CSS, and C. Since this is a website, it can work on any platform or device with a web browser.
 
 # Getting Started
+## Installation
+Ensure Node, ffmpeg, and fluidsynth are installed on your system
+Run `npm i`
 
+## Local Development
 First, run the development server:
 
 ```bash
@@ -65,3 +78,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 # References
 Sound files: https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/
+Sound fonts: https://sites.google.com/site/soundfonts4u/ 

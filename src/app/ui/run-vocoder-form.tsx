@@ -75,11 +75,11 @@ export default function RunVocoderForm() {
     const blob = await fetch(modulatorSignalPath).then((r) => r.blob());
     formData.set("modulator-signal", blob);
 
-    // add carrier signal to formData
-    const carrierSignalPath = formData.get("carrier-signal");
-    if (!carrierSignalPath) return;
-    const blob2 = await fetch(carrierSignalPath).then((r) => r.blob());
-    formData.set("carrier-signal", blob2);
+    // add midi input to formData
+    const midiInputPath = formData.get("midi-input");
+    if (!midiInputPath) return;
+    const blob2 = await fetch(midiInputPath).then((r) => r.blob());
+    formData.set("midi-input", blob2);
 
     return await runVocoder(prevState, formData);
   }
