@@ -26,6 +26,14 @@ export default function Home() {
     }
   }
 
+  const UserSettingActive = () => {
+    if (user) {
+      return <Button onClick={() => null} className="bg-blue-700 text-slate-300">User Settings</Button>
+    } else {
+      return null;
+    }
+  }
+
   return (
     <main className="flex flex-col h-screen">
       <header className="flex justify-between p-4 bg-blue-300 drop-shadow">
@@ -35,6 +43,7 @@ export default function Home() {
           <Button className="bg-blue-700 text-slate-300">File</Button>
         </div>
         <div className="flex">
+          <UserSettingActive /> &nbsp;&nbsp;
           <SignStat /> &nbsp;&nbsp;
           <Switch
             defaultChecked={false}
