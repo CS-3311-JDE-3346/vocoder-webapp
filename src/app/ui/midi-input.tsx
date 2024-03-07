@@ -120,9 +120,8 @@ export default function MidiInput() {
           selectedKeys={value}
           onSelectionChange={setValue}
           error={!isValid}
+          disallowEmptySelection
         >
-          <SelectItem value="">Select MIDI</SelectItem>
-          
           {MIDIsignals.map((midiSignal) => (
             <SelectItem 
               key={midiSignal.name} 
