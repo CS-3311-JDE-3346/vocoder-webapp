@@ -42,6 +42,7 @@ export default function CreateSignalInputFromMidiModal({
         name: formData.get("name"),
         label: formData.get("name"),
         file_name: URL.createObjectURL(formData.get("file")),
+        isAudio: false,
       },
     ]);
 

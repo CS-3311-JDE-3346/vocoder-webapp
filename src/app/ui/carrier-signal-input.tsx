@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
 import CreateSignalInputFromFileModal from "./modals/create-signal-input-from-file-modal";
-import CreateSignalInputFromMidiModal from "./modals/create-signal-input-from-midi-modal ";
+import CreateSignalInputFromMidiModal from "./modals/create-signal-input-from-midi-modal";
 import { synthesizeMidi } from "../lib/actions";
 import { base64ToArrayBuffer } from "./utils";
 
@@ -35,9 +35,25 @@ const defaultCarrierSignals = [
   },
 ];
 
+const defaultSynthesizers = [
+  {
+    name: "Guitars",
+    label: "Guitars",
+  },
+  {
+    name: "Drums",
+    label: "Drums",
+  },
+  {
+    name: "Piano",
+    label: "Piano",
+  },
+];
+
 export default function CarrierSignalInput({}) {
   const [signals, setSignals] = useState(defaultCarrierSignals);
-  const [value, setValue] = useState(new Set(["Twinkle Twinkle Little Star"]));
+  const [value, setValue] = useState("Twinkle Twinkle Little Star");
+  const [synth, setSynth] = useState("Guitars");
   const [audioName, setAudioName] = useState<string | undefined>();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSynthesizing, setIsSynthesizing] = useState(false);
@@ -51,8 +67,8 @@ export default function CarrierSignalInput({}) {
     onOpen: onOpenMidi,
     onOpenChange: onOpenChangeMidi,
   } = useDisclosure();
+  const selectedSignal = signals.find((c) => c.name === value);
   useEffect(() => {
-    const selectedSignal = signals.find((c) => c.name === [...value][0]);
     setAudioName(selectedSignal?.audio_name);
   }, [value]);
 
@@ -69,7 +85,6 @@ export default function CarrierSignalInput({}) {
 
   useEffect(() => {
     const inner = async () => {
-      const selectedSignal = signals.find((c) => c.name === [...value][0]);
       if (wavesurferRef.current && selectedSignal) {
         if (audioName) {
           wavesurferRef.current.load(audioName);
@@ -83,7 +98,7 @@ export default function CarrierSignalInput({}) {
           // cant pass blob to server action, must create formdata and attach it
           const formData = new FormData();
           formData.set("midi-input", blob);
-          formData.set("synth-name", "Guitars");
+          formData.set("synth-name", synth);
           const result = await synthesizeMidi(formData);
           if (result.buffer) {
             const blob = new Blob([base64ToArrayBuffer(result.buffer)], {
@@ -101,7 +116,7 @@ export default function CarrierSignalInput({}) {
       }
     };
     inner();
-  }, [audioName]);
+  }, [audioName, synth]);
 
   const handleWSMount = (waveSurfer) => {
     wavesurferRef.current = waveSurfer;
@@ -140,8 +155,8 @@ export default function CarrierSignalInput({}) {
         />
         <Select
           label="Carrier Signal"
-          selectedKeys={value}
-          onSelectionChange={setValue}
+          selectedKeys={new Set([value])}
+          onSelectionChange={(keys) => setValue([...keys][0])}
           disallowEmptySelection
         >
           {signals.map((signal) => (
@@ -184,6 +199,25 @@ export default function CarrierSignalInput({}) {
             <div id={`timeline-carrier`} />
           </WaveSurfer>
         </div>
+        {!selectedSignal?.isAudio && (
+          <div className="mt-6 w-32">
+            <Select
+              label="Synthesizer"
+              selectedKeys={new Set([synth])}
+              onSelectionChange={(keys) => {
+                setAudioName(undefined);
+                setSynth([...keys][0]);
+              }}
+              disallowEmptySelection
+            >
+              {defaultSynthesizers.map((synth) => (
+                <SelectItem key={synth.name} value={synth.name}>
+                  {synth.label}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
+        )}
         <div className="mt-6">
           {isPlaying ? (
             <Button onPress={() => wavesurferRef.current.pause()}>Pause</Button>

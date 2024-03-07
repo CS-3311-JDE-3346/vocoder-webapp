@@ -43,6 +43,7 @@ export default function CreateSignalInputFromFileModal({
         label: formData.get("name"),
         file_name: URL.createObjectURL(formData.get("file")),
         audio_name: URL.createObjectURL(formData.get("file")),
+        isAudio: true,
       },
     ]);
 
