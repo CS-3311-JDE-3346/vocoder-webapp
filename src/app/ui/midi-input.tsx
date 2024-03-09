@@ -30,8 +30,9 @@ const defaultMIDISignals = [
 export default function MidiInput() {
   const [MIDIsignals, setMIDIsignals] = useState(defaultMIDISignals);
   const [formError, setFormError] = useState<string>("");
-  const [value, setValue] = useState(new Set(["Twinkle Twinkle Little Star"]));
+  const [value, setValue] = useState(["Twinkle Twinkle Little Star"]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [currentNoteSequence, setCurrentNoteSequence] =
@@ -43,10 +44,21 @@ export default function MidiInput() {
   const selectedMidi = MIDIsignals.find((c) => c.name === [...value][0]);
   useEffect(() => {
     const innerFunc = async () => {
-      if (!selectedMidi) return;
+      if (!selectedMidi) {
+        setCurrentNoteSequence(null);
+        setIsValid(false);
+        return;
+      }
 
-      const noteSequence = await urlToNoteSequence(selectedMidi.filename);
-      setCurrentNoteSequence(noteSequence);
+      try {
+        const noteSequence = await urlToNoteSequence(selectedMidi.filename);
+        setCurrentNoteSequence(noteSequence);
+        setIsValid(true);
+      } catch (error) {
+        console.error("Invalid MIDI file selected:", error);
+        setCurrentNoteSequence(null);
+        setIsValid(false);
+      }
     };
     innerFunc();
   }, [selectedMidi]);
@@ -107,13 +119,22 @@ export default function MidiInput() {
           label="MIDI Input"
           selectedKeys={value}
           onSelectionChange={setValue}
+          error={!isValid}
+          disallowEmptySelection
         >
           {MIDIsignals.map((midiSignal) => (
-            <SelectItem key={midiSignal.name} value={midiSignal.name}>
+            <SelectItem 
+              key={midiSignal.name} 
+              value={midiSignal.name} 
+              disabled={!isValid}
+            >
               {midiSignal.label}
             </SelectItem>
           ))}
         </Select>
+        {!isValid && (
+          <p classname="text-600">Invalid MIDI file selected.</p>
+        )}
         <Button onPress={onOpen}>Upload</Button>
       </div>
       <div className="overflow-x-auto mb-4">
@@ -140,6 +161,16 @@ export default function MidiInput() {
                 stop: () => {},
               });
               vizPlayerRef.current = vizPlayer;
+            }
+
+            if (!isValid) {
+              console.error("invalid MIDI file selected");
+              return;
+            }
+
+            if (!currentNoteSequence) {
+              console.error("No MIDI selected");
+              return;
             }
 
             if (vizPlayer.getPlayState() === "paused") {
