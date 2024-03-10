@@ -13,7 +13,8 @@ export default function Home() {
   app;
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const [user, loading] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth); 
+  const u = auth.currentUser;
 
   const signIn = async () => {
     const result = await signInWithPopup(auth, provider);
@@ -34,10 +35,11 @@ export default function Home() {
         return  (
           <Popover placement="bottom">
             <PopoverTrigger>
-              <Button className="bg-blue-700 text-slate-300">User Settings</Button>
+              <Button className="bg-blue-700 text-slate-300">User Profile</Button>
             </PopoverTrigger>
             <PopoverContent>
               <div className="px-1 py-2">
+                <p>User Profile</p>
                 <div>____________________________________</div>
                 <Select
                   label="Education relation"

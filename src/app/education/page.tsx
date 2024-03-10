@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Switch, useDisclosure } from "@nextui-org/react";
+import { Button, Switch, useDisclosure, Popover, PopoverTrigger, PopoverContent, Select, SelectItem } from "@nextui-org/react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -43,6 +43,48 @@ export default function Home() {
       }
     }  
 
+    const [EducationRelation, setValue] = useState("Not a Teacher or Student");
+
+    const UserSettingActive = () => {
+      if (user) {
+          return  (
+            <Popover placement="bottom">
+              <PopoverTrigger>
+                <Button className="bg-blue-700 text-slate-300">User Profile</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <div className="px-1 py-2">
+                  <p>User Profile</p>
+                  <div>____________________________________</div>
+                  <Select
+                    label="Education relation"
+                    placeholder={EducationRelation}
+                    onSelectionChange={setValue}>
+                    <SelectItem
+                      key={"Not a Teacher or Student"} 
+                      value={"Not a Teacher or Student"}>
+                      Not a Teacher or Student
+                    </SelectItem>
+                    <SelectItem
+                      key={"Teacher"} 
+                      value={"Teacher"}>
+                      Teacher
+                    </SelectItem>
+                    <SelectItem
+                      key={"Student"} 
+                      value={"Student"}>
+                      Student
+                    </SelectItem>
+                  </Select>
+                </div>
+              </PopoverContent>
+            </Popover>
+          )
+      } else {
+        return null;
+      }
+    }
+
     return (
         <main className="flex flex-col h-screen">
           <header className="flex justify-between p-4 bg-blue-300 drop-shadow">
@@ -52,6 +94,7 @@ export default function Home() {
             </div>
             <h1 className="mr-8 font-bold text-xl text-slate-800">Learn More About Vocoders!</h1>
             <div className="flex">
+              <UserSettingActive /> &nbsp;&nbsp;
               <SignStat /> &nbsp;&nbsp;
             </div>
           </header>
