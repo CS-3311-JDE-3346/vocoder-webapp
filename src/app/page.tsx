@@ -7,7 +7,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { app } from "../../firebase/firebaseApp";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Home() {
   app;
@@ -27,7 +27,7 @@ export default function Home() {
     }
   }
 
-  const EducationRelation = () => "None";
+  const [EducationRelation, setValue] = useState("Not a Teacher or Student");
 
   const UserSettingActive = () => {
     if (user) {
@@ -41,10 +41,11 @@ export default function Home() {
                 <div>____________________________________</div>
                 <Select
                   label="Education relation"
-                  placeholder={EducationRelation()}>
+                  placeholder={EducationRelation}
+                  onSelectionChange={setValue}>
                   <SelectItem
-                    key={"None"} 
-                    value={"None"}>
+                    key={"Not a Teacher or Student"} 
+                    value={"Not a Teacher or Student"}>
                     Not a Teacher or Student
                   </SelectItem>
                   <SelectItem
