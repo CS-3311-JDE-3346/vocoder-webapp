@@ -8,8 +8,10 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - Users can now specify the midi file to be used in the vocoder
 - Users can now select from "teacher" and "student".
 - Users can now track learning progress by marking sections as "complete".
+- Users can change synth.
 
 ### Bug Fixes
+- Fixed invalid MIDI file error.
 
 ### Known Issues
 - Vocoder experiences inability to run on some machines.
