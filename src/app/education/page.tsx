@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { app } from "../../../firebase/firebaseApp";
 import Link from "next/link";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
+import React, { useState } from 'react';
 
 
 export default function Home() {
@@ -17,6 +18,18 @@ export default function Home() {
     const [user, loading] = useAuthState(auth);
     const modal1 = useDisclosure();
     const modal2 = useDisclosure();
+
+    const [isComplete_1, setIsComplete_1] = useState(false);
+    const [isComplete_2, setIsComplete_2] = useState(false);
+    const learning_progress = ((isComplete_1 ? 1 : 0) + (isComplete_2 ? 1 : 0)) * 50;
+    function toggleSection(section) {
+        if (section === 1) {
+            setIsComplete_1(prevState => !prevState);
+        } else if (section === 2) {
+            setIsComplete_2(prevState => !prevState);
+        }
+    }
+    
   
     const signIn = async () => {
       const result = await signInWithPopup(auth, provider);
@@ -75,6 +88,7 @@ export default function Home() {
                           <a href={"/vocoder_learning_content.pdf"} download="/vocoder_learning_content.pdf" target='_blank'>
                             <Button className="flex justify-between bg-blue-700 text-slate-300">Download as PDF</Button>
                           </a>
+                          <Button  className="flex justify-between bg-blue-700 text-slate-300" onClick={() => toggleSection(1)}>{isComplete_1 ? "Mark as Incomplete" : "Mark as Complete"}</Button>
                           <Button className="flext justify-between bg-blue-700 text-slate-300" onClick={modal1.onClose}>Close</Button>
                         </ModalFooter>
                       </>
@@ -117,6 +131,7 @@ export default function Home() {
                           <a href={"/vocoder_learning_content.pdf"} download="/vocoder_learning_content.pdf" target='_blank'>
                             <Button className="flex justify-between bg-blue-700 text-slate-300">Download as PDF</Button>
                           </a>
+                          <Button className="flex justify-between bg-blue-700 text-slate-300" onClick={() => toggleSection(2)}>{isComplete_2 ? "Mark as Incomplete" : "Mark as Complete"}</Button>
                           <Button className="flext justify-between bg-blue-700 text-slate-300" onClick={modal2.onClose}>Close</Button>
                         </ModalFooter>
                       </>
@@ -126,6 +141,13 @@ export default function Home() {
             </div>
           </div>
           <footer className="p-4">
+            <div className="float-left">
+              <div>Learning Progress: {learning_progress}%</div>
+              <div style={{ width: '200px', height: '20px', border: '2px solid black' }}>
+                <div style={{ width: `${learning_progress}%`, height: '100%', backgroundColor: 'blue' }}></div>
+              </div>
+              <div></div>
+            </div>
             <Button color="secondary" className="float-right">
               <Link href="/">Back to the Vocoder</Link>
             </Button>
