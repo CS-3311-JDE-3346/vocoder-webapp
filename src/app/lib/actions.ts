@@ -29,15 +29,14 @@ export async function runVocoder(prevState: any, formData: FormData) {
 
   // run vocoder
   execSync(
-    `./vocoder -c temp/carrier_signal_44100_c.wav -m temp/modulator_signal_44100.wav -o /output.wav`
+    `./vocoder -c temp/carrier_signal_44100_c.wav -m temp/modulator_signal_44100.wav -o temp/output.wav`
   );
-
 
   // execSync(
   //   `./vocoder -c temp/carrier_white_noise.wav -m temp/modulator_signal_44100.wav -o temp/output.wav`
   // );
 
-  const outputBuffer = readFileSync("/output.wav");
+  const outputBuffer = readFileSync("temp/output.wav");
   return {
     message: "success",
     buffer: Buffer.from(outputBuffer).toString("base64"),
