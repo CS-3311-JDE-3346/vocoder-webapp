@@ -6,9 +6,11 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 ### New Features
 - Users can now export learning content as PDF.
 - Users can now specify the midi file to be used in the vocoder
-- Users can now select from "teacher" and "student".
+- Users can now select from "teacher" and "student" in a new profile popup for their account.
 - Users can now track learning progress by marking sections as "complete".
 - Users can change synth.
+- Users can now view basic educational information about vocoders on the education page.
+- Users can now view educational information about popular music that uses vocoders on the educational page.
 
 ### Bug Fixes
 - Fixed invalid MIDI file error.
