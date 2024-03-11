@@ -77,6 +77,11 @@ export default function ShowWaveform({ blob }) {
           <WaveForm id="waveform2"></WaveForm>
           <div id="timeline2" />
         </WaveSurfer>
+        <div>
+          <a href={"/output.wav"} download="/output.wav" target='_blank'>
+            <Button>Download!</Button>
+          </a>
+        </div>
       </div>
     </div>
   );
