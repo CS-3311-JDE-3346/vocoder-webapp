@@ -6,7 +6,7 @@ import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import RecordPlugin from "wavesurfer.js/dist/plugins/record";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
 
-export default function ShowWaveform({ blob }) {
+export default function ShowWaveform({ blob, blobUrl }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const wavesurferRef = useRef();
@@ -78,7 +78,7 @@ export default function ShowWaveform({ blob }) {
           <div id="timeline2" />
         </WaveSurfer>
         <div>
-          <a href={"/output.wav"} download="/output.wav" target='_blank'>
+          <a href={"/output.wav"} download={blobUrl} target='_blank'>
             <Button>Download!</Button>
           </a>
         </div>

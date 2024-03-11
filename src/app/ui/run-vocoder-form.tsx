@@ -45,6 +45,7 @@ export default function RunVocoderForm() {
   const blob = state.buffer
     ? new Blob([base64ToArrayBuffer(state.buffer)], { type: ".wav" })
     : undefined;
+  const blobUrl = blob && URL.createObjectURL(blob)
 
   return (
     <div>
@@ -61,7 +62,7 @@ export default function RunVocoderForm() {
           {state.error && <p className="text-red-600">{state.error}</p>}
         </div>
       </form>
-      <ShowWaveform blob={blob} />
+      <ShowWaveform blob={blob} blobUrl={blobUrl} />
     </div>
   );
 }
