@@ -9,7 +9,7 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownTrigger
+  DropdownTrigger,
 } from "@nextui-org/react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -18,7 +18,7 @@ import { app } from "../../firebase/firebaseApp";
 import React, { useState } from "react";
 import UserSettingActive from "./ui/user-settings";
 
-export default function Header() {
+export default function Header({ runs, setRunId }) {
   app;
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -51,20 +51,18 @@ export default function Header() {
 
   const voidFunction = () => {
     return null;
-  }
+  };
 
   return (
     <header className="flex justify-between p-4 bg-blue-300 drop-shadow">
       <div className="flex items-center">
         <p className="mr-8 font-bold text-slate-800">Learn Vocoders</p>
-        
 
         <Dropdown>
           <DropdownTrigger>
             <Button className="bg-blue-700 text-slate-300">File</Button>
           </DropdownTrigger>
           <DropdownMenu aria-label="File Menu">
-
             <DropdownItem
               key="new"
               onPress={() => {
@@ -109,10 +107,8 @@ export default function Header() {
             >
               Export as PDF
             </DropdownItem>
-
           </DropdownMenu>
         </Dropdown>
-
       </div>
       <div className="flex">
         <UserSettingActive user = {user}/> &nbsp;&nbsp;
