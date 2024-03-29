@@ -16,6 +16,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { app } from "../../firebase/firebaseApp";
 import React, { useState } from "react";
+import UserSettingActive from "./ui/user-settings";
 
 export default function Header() {
   app;
@@ -47,49 +48,10 @@ export default function Header() {
     }
   };
 
-  const [EducationRelation, setValue] = useState("Not a Teacher or Student");
 
   const voidFunction = () => {
     return null;
   }
-
-  const UserSettingActive = () => {
-    if (user) {
-      return (
-        <Popover placement="bottom">
-          <PopoverTrigger>
-            <Button className="bg-blue-700 text-slate-300">User Profile</Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="px-1 py-2">
-              <p>User Profile</p>
-              <div>____________________________________</div>
-              <Select
-                label="Education relation"
-                placeholder={EducationRelation}
-                onSelectionChange={setValue}
-              >
-                <SelectItem
-                  key={"Not a Teacher or Student"}
-                  value={"Not a Teacher or Student"}
-                >
-                  Not a Teacher or Student
-                </SelectItem>
-                <SelectItem key={"Teacher"} value={"Teacher"}>
-                  Teacher
-                </SelectItem>
-                <SelectItem key={"Student"} value={"Student"}>
-                  Student
-                </SelectItem>
-              </Select>
-            </div>
-          </PopoverContent>
-        </Popover>
-      );
-    } else {
-      return null;
-    }
-  };
 
   return (
     <header className="flex justify-between p-4 bg-blue-300 drop-shadow">
@@ -153,7 +115,7 @@ export default function Header() {
 
       </div>
       <div className="flex">
-        <UserSettingActive /> &nbsp;&nbsp;
+        <UserSettingActive user = {user}/> &nbsp;&nbsp;
         <SignStat /> &nbsp;&nbsp;
         <Switch
           defaultChecked={false}
