@@ -256,7 +256,7 @@ export default function Home() {
                   </ModalHeader>
                   <ModalBody>
                     <p>
-                      Now that we have talked about the versitality of vocoders,
+                      Now that we have talked about the versatility of vocoders,
                       Lets discuss how they can be used. This vocoder on the website
                       is a basic one that contains a modulator signal, a carrier signal,
                       a midi, a sythesizer, and the output, which is your result.
