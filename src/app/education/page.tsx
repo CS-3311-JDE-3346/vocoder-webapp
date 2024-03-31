@@ -37,13 +37,16 @@ export default function Home() {
 
   const [isComplete_1, setIsComplete_1] = useState(false);
   const [isComplete_2, setIsComplete_2] = useState(false);
+  const [isComplete_3, setIsComplete_3] = useState(false);
   const learning_progress =
-    ((isComplete_1 ? 1 : 0) + (isComplete_2 ? 1 : 0)) * 50;
+    ((isComplete_1 ? 1 : 0) + (isComplete_2 ? 1 : 0) + (isComplete_3 ? 1 : 0)) * 33.33333;
   function toggleSection(section) {
     if (section === 1) {
       setIsComplete_1((prevState) => !prevState);
     } else if (section === 2) {
       setIsComplete_2((prevState) => !prevState);
+    } else if (section === 3) {
+      setIsComplete_3((prevState) => !prevState);
     }
   }
 
@@ -311,9 +314,9 @@ export default function Home() {
                     </a>
                     <Button
                       className="flex justify-between bg-blue-700 text-slate-300"
-                      onClick={() => toggleSection(2)}
+                      onClick={() => toggleSection(3)}
                     >
-                      {isComplete_2 ? "Mark as Incomplete" : "Mark as Complete"}
+                      {isComplete_3 ? "Mark as Incomplete" : "Mark as Complete"}
                     </Button>
                     <Button
                       className="flext justify-between bg-blue-700 text-slate-300"
