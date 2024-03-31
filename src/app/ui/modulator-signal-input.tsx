@@ -43,6 +43,10 @@ export default function ModulatorSignalInput({ signals, setSignals, onSignalAdd 
     },
   ];
 
+  const voidFunction = () => {
+    return null;
+  }
+
   useEffect(() => {
     if (wavesurferRef.current) {
       wavesurferRef.current.load(selectedSignal?.file_name);
@@ -116,6 +120,22 @@ export default function ModulatorSignalInput({ signals, setSignals, onSignalAdd 
               }}
             >
               From recording
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+
+        <Dropdown>
+          <DropdownTrigger>
+            <Button>Customize</Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Customization options for modulator signal">
+            <DropdownItem
+              key="filters_per_pand"
+              onPress={() => {
+                voidFunction();
+              }}
+            >
+              filters_per_band
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

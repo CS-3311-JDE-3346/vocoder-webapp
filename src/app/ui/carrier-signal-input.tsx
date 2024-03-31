@@ -123,6 +123,10 @@ export default function CarrierSignalInput({signals, setSignals, onSignalAdd}) {
     }
   };
 
+  const voidFunction = () => {
+    return null;
+  }
+
   return (
     <div className="p-2 rounded-lg drop-shadow-md bg-white flex-grow">
       <div className="flex gap-4">
@@ -164,6 +168,22 @@ export default function CarrierSignalInput({signals, setSignals, onSignalAdd}) {
               }}
             >
               From midi file
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+
+        <Dropdown>
+          <DropdownTrigger>
+            <Button>Customize</Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Customization options for carrier signal">
+            <DropdownItem
+              key="filters_per_band"
+              onPress={() => {
+                voidFunction();
+              }}
+            >
+              filters_per_band
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
