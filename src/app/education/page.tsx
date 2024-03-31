@@ -33,6 +33,7 @@ export default function Home() {
   const [user, loading] = useAuthState(auth);
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
+  const modal3 = useDisclosure();
 
   const [isComplete_1, setIsComplete_1] = useState(false);
   const [isComplete_2, setIsComplete_2] = useState(false);
@@ -203,6 +204,100 @@ export default function Home() {
                       the start of a journey for you to be able to produce music
                       like this in the future.
                     </p>
+                  </ModalBody>
+                  <ModalFooter className="flex-row flex justify-between">
+                    <a
+                      href={"/vocoder_learning_content.pdf"}
+                      download="/vocoder_learning_content.pdf"
+                      target="_blank"
+                    >
+                      <Button className="flex justify-between bg-blue-700 text-slate-300">
+                        Download as PDF
+                      </Button>
+                    </a>
+                    <Button
+                      className="flex justify-between bg-blue-700 text-slate-300"
+                      onClick={() => toggleSection(2)}
+                    >
+                      {isComplete_2 ? "Mark as Incomplete" : "Mark as Complete"}
+                    </Button>
+                    <Button
+                      className="flext justify-between bg-blue-700 text-slate-300"
+                      onClick={modal2.onClose}
+                    >
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </>
+              </ModalContent>
+            </Modal>
+          </div>
+          <div className="flex-row flex justify-between">
+            <Button
+              className="basis-1/2 bg-blue-700 text-slate-300"
+              onPress={modal3.onOpen}
+            >
+              How can Vocoders be Used?
+            </Button>
+            <Modal
+              size="5xl"
+              isOpen={modal3.isOpen}
+              onOpenChange={modal3.onOpenChange}
+              onClose={modal3.onClose}
+            >
+              <ModalContent>
+                <>
+                  <ModalHeader className="bg-blue-300">
+                    {" "}
+                    How can Vocoders be Used?{" "}
+                  </ModalHeader>
+                  <ModalBody>
+                    <p>
+                      Now that we have talked about the versitality of vocoders,
+                      Lets discuss how they can be used. This vocoder on the website
+                      is a basic one that contains a modulator signal, a carrier signal,
+                      a midi, a sythesizer, and the output, which is your result.
+                      We encourage you to fiddle with everything and try it out for 
+                      yourself. This will allow you to see patterns and get a better
+                      understanding of how the vocoder works and how the features affect
+                      the final sound. We have some brief descriptions below of what the
+                      features do.
+                    </p>
+                    <h3> <b>Modulator Signal</b> </h3>
+                    <p>
+                      In a vocoder, the modulator signal provides the input voice or sound 
+                      source that is analyzed and used to modulate a carrier signal, creating 
+                      synthesized sounds that retain some of the characteristics of the 
+                      original modulator signal. This process is what allows vocoders to create 
+                      distinctive voice effects and synthetic sounds commonly heard in music 
+                      production and audio processing.
+                    </p>
+                    <h3> <b>Carrier Signal</b> </h3>
+                    <p>
+                      In summary, a carrier signal is essential in modulation processes 
+                      because it provides the framework or structure onto which information 
+                      from the modulator signal is imposed. It acts as a medium for 
+                      transmitting the modulating signal's information, which is encoded in 
+                      various ways depending on the modulation technique employed.
+                    </p>
+                    <h3> <b>Midi and Synthesizer</b> </h3>
+                    <p>
+                      You have probably seen a midi if you have produced any music before. A midi
+                      allows for precise manipulation of an audio file. In the context of vocoders,
+                      midi allows for the sound you make in vocoders to be accurately changed and 
+                      manipulated, effectively bringing the functions of the midi to a vocoder in 
+                      order to allow more functionality in the vocoder.
+                    </p>
+                    <p>
+                      The synthesizer in a vocoder setup plays a crucial role in generating the 
+                      carrier signal, shaping its timbral qualities, and providing the musical 
+                      context onto which the modulator signal is imposed to create the distinctive vocoder effect.
+                    </p>
+                    <h3 className="text-center"><b>
+                      Now that you have a basic understanding of this vocoder's features, go try it out
+                      for yourself. Turn on the explanation mode toggle for a step by step walkthrough
+                      if you need one.
+                    </b></h3>
                   </ModalBody>
                   <ModalFooter className="flex-row flex justify-between">
                     <a
