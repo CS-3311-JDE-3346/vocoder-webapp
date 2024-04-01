@@ -2,6 +2,10 @@
 Learn Vocoders is a website that helps users learn more about vocoders! Users will eventually be able to run a vocoder, learn more about vocoders, and save their progress via their account. This repository houses the frontend portion of the app, created using NextJS.
 
 # Release Notes
+## Version 0.4.0
+### New Features
+- Additions to the education page and vocoder input.
+
 ## Version 0.3.0
 ### New Features
 - Users can now export learning content as PDF.
