@@ -16,6 +16,12 @@ export default function Home() {
   const auth = getAuth();
   const [user, loading] = useAuthState(auth);
 
+  const [isSwitchOn, setIsSwitchOn] = useState<boolean>(false);
+
+  const toggleSwitch = () => {
+    setIsSwitchOn(prevState => !prevState);
+  }
+
   useEffect(() => {
     const inner = async () => {
       // if logged in, by default load a random run. If no runs exist, create new one
@@ -37,10 +43,17 @@ export default function Home() {
 
   return (
     <main className="flex flex-col h-screen">
-      <Header runs={runs} setRunId={setRunId} setRuns={setRuns} />
+      <Header runs={runs} setRunId={setRunId} setRuns={setRuns} isSwitchOn={isSwitchOn} toggleSwitch={toggleSwitch} />
       <div className="flex-grow p-4">
-        <RunVocoderForm runId={runId} setRuns={setRuns} />
+        <RunVocoderForm runId={runId} setRuns={setRuns} isSwitchOn={isSwitchOn} />
       </div>
+      <div>
+          {isSwitchOn ? (
+            <p className="text-center">Don't forget to download your result so you can save it!</p>
+          ) : (
+            <p></p>
+          )}
+        </div>
       <footer className="p-4">
         <Button color="secondary" className="float-right">
           <Link href="/education">Learn More About Vocoders!</Link>
