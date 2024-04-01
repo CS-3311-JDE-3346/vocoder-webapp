@@ -4,7 +4,10 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 # Release Notes
 ## Version 0.4.0
 ### New Features
-- Additions to the education page and vocoder input.
+- Additions to the education page to explain how vocodes are used.
+- Added explanation mode with popups.
+- Users can now sync vocoder inputs and outputs with account.
+- File menu and custom vocoder input.
 
 ### Known Issues
 - Application might not run if libraries not properly installed. Caused some issues for team members.
