@@ -27,7 +27,12 @@ import React, { useState } from "react";
 import UserSettingActive from "./ui/user-settings";
 import { createRun, getRuns } from "./lib/actions";
 
-export default function Header({ runs, setRunId, setRuns }) {
+interface HeaderProps {
+  isSwitchOn: boolean;
+  toggleSwitch: () => void;
+}
+
+export default function Header({ runs, setRunId, setRuns, isSwitchOn, toggleSwitch }) {
   app;
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -124,11 +129,19 @@ export default function Header({ runs, setRunId, setRuns }) {
             </Dropdown>
           )}
         </div>
+        <div>
+          {isSwitchOn ? (
+            <p>To learn more about the vocoder and its functions, visit the educational page!</p>
+          ) : (
+            <p></p>
+          )}
+        </div>
         <div className="flex">
           <UserSettingActive /> &nbsp;&nbsp;
           <SignStat /> &nbsp;&nbsp;
           <Switch
-            defaultChecked={false}
+            checked={isSwitchOn}
+            onChange={toggleSwitch}
             color="primary"
             endContent={<FaCircleInfo />}
           >

@@ -51,6 +51,7 @@ function loadSignals(origSignals) {
 export default function RunVocoderForm({
   runId,
   setRuns,
+  isSwitchOn
 }: {
   runId: string | undefined;
 }) {
@@ -191,6 +192,13 @@ export default function RunVocoderForm({
           setSignals={setModulatorSignals}
           onSignalAdd={(signal) => onSignalAdd(signal, "modulatorSignals")}
         />
+        <div>
+          {isSwitchOn ? (
+            <p>Input a Modulator Signal here to get started!</p>
+          ) : (
+            <p></p>
+          )}
+        </div>
         <div className="mt-4">
           <CarrierSignalInput
             signals={carrierSignals}
@@ -198,10 +206,24 @@ export default function RunVocoderForm({
             onSignalAdd={(signal) => onSignalAdd(signal, "carrierSignals")}
           />
         </div>
+        <div>
+          {isSwitchOn ? (
+            <p>Input a Carrier Signal here and select a synthesizer!</p>
+          ) : (
+            <p></p>
+          )}
+        </div>
         <div className="flex items-center mt-4 justify-between">
           <Switch name="show-steps" value="true">
             Show steps
           </Switch>
+          <div>
+          {isSwitchOn ? (
+            <p>Now you are ready! Click run to generate your final product.</p>
+          ) : (
+            <p></p>
+          )}
+        </div>
           <SubmitButton />
           {state.error && <p className="text-red-600">{state.error}</p>}
         </div>
