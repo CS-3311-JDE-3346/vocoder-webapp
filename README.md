@@ -6,6 +6,9 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 ### New Features
 - Additions to the education page and vocoder input.
 
+### Known Issues
+- Application might not run if libraries not properly installed. Caused some issues for team members.
+
 ## Version 0.3.0
 ### New Features
 - Users can now export learning content as PDF.
