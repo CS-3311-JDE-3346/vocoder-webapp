@@ -15,6 +15,7 @@ import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
 import CreateSignalInputFromFileModal from "./modals/create-signal-input-from-file-modal";
 import CreateSignalInputFromMidiModal from "./modals/create-signal-input-from-midi-modal";
+import CreateSignalInputFromMidiCustomModal from "./modals/create-signal-input-from-midi-custom-modal";
 import { synthesizeMidi } from "../lib/actions";
 import { base64ToArrayBuffer } from "./utils";
 
@@ -45,6 +46,11 @@ export default function CarrierSignalInput({signals, setSignals, onSignalAdd}) {
     isOpen: isOpenMidi,
     onOpen: onOpenMidi,
     onOpenChange: onOpenChangeMidi,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenCustomMidi,
+    onOpen: onOpenCustomMidi,
+    onOpenChange: onOpenChangeCustomMidi,
   } = useDisclosure();
   const selectedSignal = signals.find((c) => c.name === value);
   useEffect(() => {
@@ -169,6 +175,14 @@ export default function CarrierSignalInput({signals, setSignals, onSignalAdd}) {
             >
               From midi file
             </DropdownItem>
+            <DropdownItem
+              key="customMidi"
+              onPress={() => {
+                onOpenCustomMidi();
+              }}
+            >
+              Custom MIDI
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
 
@@ -243,6 +257,14 @@ export default function CarrierSignalInput({signals, setSignals, onSignalAdd}) {
       <CreateSignalInputFromMidiModal
         isOpen={isOpenMidi}
         onOpenChange={onOpenChangeMidi}
+        signalType="carrier"
+        signals={signals}
+        setSignals={setSignals}
+        onSignalAdd={onSignalAdd}
+      />
+      <CreateSignalInputFromMidiCustomModal
+        isOpen={isOpenCustomMidi}
+        onOpenChange={onOpenChangeCustomMidi}
         signalType="carrier"
         signals={signals}
         setSignals={setSignals}
