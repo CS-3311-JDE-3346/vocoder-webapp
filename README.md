@@ -10,7 +10,7 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - File menu and custom vocoder input.
 
 ### Known Issues
-- Application might not run if libraries not properly installed. Caused some issues for team members.
+- If you record a modulator signal, it requires a page reload in order to see it
 
 ## Version 0.3.0
 ### New Features
