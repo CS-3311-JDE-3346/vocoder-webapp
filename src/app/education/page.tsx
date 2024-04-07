@@ -320,7 +320,7 @@ export default function Home() {
                     </Button>
                     <Button
                       className="flext justify-between bg-blue-700 text-slate-300"
-                      onClick={modal2.onClose}
+                      onClick={modal3.onClose}
                     >
                       Close
                     </Button>
