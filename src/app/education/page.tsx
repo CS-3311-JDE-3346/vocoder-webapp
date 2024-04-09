@@ -210,8 +210,8 @@ export default function Home() {
                   </ModalBody>
                   <ModalFooter className="flex-row flex justify-between">
                     <a
-                      href={"/vocoder_learning_content.pdf"}
-                      download="/vocoder_learning_content.pdf"
+                      href={"/songs_with_vocoders.pdf"}
+                      download="/songs_with_vocoders.pdf"
                       target="_blank"
                     >
                       <Button className="flex justify-between bg-blue-700 text-slate-300">
@@ -304,8 +304,8 @@ export default function Home() {
                   </ModalBody>
                   <ModalFooter className="flex-row flex justify-between">
                     <a
-                      href={"/vocoder_learning_content.pdf"}
-                      download="/vocoder_learning_content.pdf"
+                      href={"/how_can_vocoders_be_used.pdf"}
+                      download="/how_can_vocoders_be_used.pdf"
                       target="_blank"
                     >
                       <Button className="flex justify-between bg-blue-700 text-slate-300">
