@@ -21,6 +21,23 @@ import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { defaultModulatorSignals, defaultCarrierSignals } from "../constants";
 
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
+import { SortableItem } from "./sortable-item";
+
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
@@ -51,10 +68,33 @@ function loadSignals(origSignals) {
 export default function RunVocoderForm({
   runId,
   setRuns,
-  isSwitchOn
+  isSwitchOn,
 }: {
   runId: string | undefined;
 }) {
+  // dnd kit
+  const [items, setItems] = useState([1, 2, 3]);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
+
+  // state
   const [modulatorSignals, setModulatorSignals] = useState(
     defaultModulatorSignals
   );
@@ -66,6 +106,7 @@ export default function RunVocoderForm({
 
   const [loading, setLoading] = useState(false);
 
+  // firebase auth
   const auth = getAuth();
   const [user, authLoading] = useAuthState(auth);
 
@@ -151,84 +192,122 @@ export default function RunVocoderForm({
   if (loading || authLoading) return <div>Loading</div>;
 
   return (
-    <div>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
       <form action={dispatch} className="">
-        <div className="flex items-center mb-4">
-          <Input
-            isReadOnly={!isEditingName}
-            isRequired
-            value={isEditingName ? runNameTemp : runName}
-            onValueChange={setRunNameTemp}
-            name="run-name"
-            className={"max-w-xs mr-4 " + (isEditingName ? "" : "")}
-            classNames={{
-              inputWrapper: isEditingName ? "" : "bg-white",
-              input: "text-lg",
-            }}
-          />
-          <Button
-            isIconOnly
-            onClick={() => {
-              const inner = async () => {
-                if (isEditingName) {
-                  setRunName(runNameTemp);
-                  if (runId && user) {
-                    const idToken = await user.getIdToken();
-                    updateRunName(runId, runNameTemp, idToken);
-                    const runs = await getRuns(idToken);
-                    setRuns(runs);
+        <SortableContext items={items} strategy={verticalListSortingStrategy}>
+          <div className="flex items-center mb-4">
+            <Input
+              isReadOnly={!isEditingName}
+              isRequired
+              value={isEditingName ? runNameTemp : runName}
+              onValueChange={setRunNameTemp}
+              name="run-name"
+              className={"max-w-xs mr-4 " + (isEditingName ? "" : "")}
+              classNames={{
+                inputWrapper: isEditingName ? "" : "bg-white",
+                input: "text-lg",
+              }}
+            />
+            <Button
+              isIconOnly
+              onClick={() => {
+                const inner = async () => {
+                  if (isEditingName) {
+                    setRunName(runNameTemp);
+                    if (runId && user) {
+                      const idToken = await user.getIdToken();
+                      updateRunName(runId, runNameTemp, idToken);
+                      const runs = await getRuns(idToken);
+                      setRuns(runs);
+                    }
                   }
-                }
-                setIsEditingName((oldValue) => !oldValue);
-              };
-              inner();
-            }}
-          >
-            {isEditingName ? <FaCheck /> : <FaPencil />}
-          </Button>
-        </div>
-        <ModulatorSignalInput
-          signals={modulatorSignals}
-          setSignals={setModulatorSignals}
-          onSignalAdd={(signal) => onSignalAdd(signal, "modulatorSignals")}
-        />
-        <div>
-          {isSwitchOn ? (
-            <p>Input a Modulator Signal here to get started!</p>
-          ) : (
-            <p></p>
-          )}
-        </div>
-        <div className="mt-4">
-          <CarrierSignalInput
-            signals={carrierSignals}
-            setSignals={setCarrierSignals}
-            onSignalAdd={(signal) => onSignalAdd(signal, "carrierSignals")}
-          />
-        </div>
-        <div>
-          {isSwitchOn ? (
-            <p>Input a Carrier Signal here and select a synthesizer!</p>
-          ) : (
-            <p></p>
-          )}
-        </div>
-        <div className="flex items-center mt-4 justify-between">
-          <Switch name="show-steps" value="true">
-            Show steps
-          </Switch>
-          <div>
-          {isSwitchOn ? (
-            <p>Now you are ready! Click run to generate your final product.</p>
-          ) : (
-            <p></p>
-          )}
-        </div>
-          <SubmitButton />
-          {state.error && <p className="text-red-600">{state.error}</p>}
-        </div>
+                  setIsEditingName((oldValue) => !oldValue);
+                };
+                inner();
+              }}
+            >
+              {isEditingName ? <FaCheck /> : <FaPencil />}
+            </Button>
+          </div>
+          {items.map((id) => {
+            switch (id) {
+              case 1:
+                return (
+                  <SortableItem key={1} id={1}>
+                    <div className="my-4">
+                      <ModulatorSignalInput
+                        signals={modulatorSignals}
+                        setSignals={setModulatorSignals}
+                        onSignalAdd={(signal) =>
+                          onSignalAdd(signal, "modulatorSignals")
+                        }
+                      />
+                      <div>
+                        {isSwitchOn ? (
+                          <p>Input a Modulator Signal here to get started!</p>
+                        ) : (
+                          <p></p>
+                        )}
+                      </div>
+                    </div>
+                  </SortableItem>
+                );
+              case 2:
+                return (
+                  <SortableItem key={2} id={2}>
+                    <div className="my-4">
+                      <CarrierSignalInput
+                        signals={carrierSignals}
+                        setSignals={setCarrierSignals}
+                        onSignalAdd={(signal) =>
+                          onSignalAdd(signal, "carrierSignals")
+                        }
+                      />
+                    </div>
+                    <div>
+                      {isSwitchOn ? (
+                        <p>
+                          Input a Carrier Signal here and select a synthesizer!
+                        </p>
+                      ) : (
+                        <p></p>
+                      )}
+                    </div>
+                  </SortableItem>
+                );
+              case 3:
+                return (
+                  <SortableItem key={3} id={3}>
+                    <div className="flex items-center my-4 justify-between">
+                      <Switch name="show-steps" value="true">
+                        Show steps
+                      </Switch>
+                      <div>
+                        {isSwitchOn ? (
+                          <p>
+                            Now you are ready! Click run to generate your final
+                            product.
+                          </p>
+                        ) : (
+                          <p></p>
+                        )}
+                      </div>
+                      <SubmitButton />
+                      {state.error && (
+                        <p className="text-red-600">{state.error}</p>
+                      )}
+                    </div>
+                    <ShowWaveform blob={blob} blobUrl={blobUrl} />
+                  </SortableItem>
+                );
+            }
+          })}
+        </SortableContext>
       </form>
-      <ShowWaveform blob={blob} blobUrl={blobUrl} />
-    </div>
+    </DndContext>
   );
 }
