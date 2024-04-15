@@ -137,7 +137,7 @@ export default function Header({ runs, setRunId, setRuns, isSwitchOn, toggleSwit
           )}
         </div>
         <div className="flex">
-          <UserSettingActive /> &nbsp;&nbsp;
+          <UserSettingActive user={user} /> &nbsp;&nbsp;
           <SignStat /> &nbsp;&nbsp;
           <Switch
             checked={isSwitchOn}
