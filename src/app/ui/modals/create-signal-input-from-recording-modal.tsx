@@ -89,7 +89,7 @@ export default function CreateSignalInputFromRecordingModal({
       audio_name: recordingUrl,
       isAudio: true,
     };
-    setSignals((prev) => [...prev]);
+    setSignals((prev) => [...prev, newSignal]);
     onSignalAdd(newSignal);
 
     setFormError("");
