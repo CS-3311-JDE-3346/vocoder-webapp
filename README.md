@@ -2,6 +2,16 @@
 Learn Vocoders is a website that helps users learn more about vocoders! Users will eventually be able to run a vocoder, learn more about vocoders, and save their progress via their account. This repository houses the frontend portion of the app, created using NextJS.
 
 # Release Notes
+## Version 0.5.0
+### New Features
+- User can now reorder the signal and output components of the vocoder, using the drag handles on the right side of the screen
+
+### Bug Fixes
+- Resolved issue where the user has to refresh the page after they record a modulator signal
+
+### Known Issues
+- If the user renames a run to the same name as an existing run, they may run into an issue
+
 ## Version 0.4.0
 ### New Features
 - Additions to the education page to explain how vocodes are used.
@@ -70,29 +80,28 @@ ourselves, which would make implementing the educational aspects later even easi
 
 Our technologies used are Next.js, React, and JUCE, and the programming languages used are JavaScript, HTML, CSS, and C. Since this is a website, it can work on any platform or device with a web browser.
 
-# Getting Started
-## Installation
-Ensure Node, ffmpeg, and fluidsynth are installed on your system
-Run `npm i`
+# Install Guide
+## Pre-requisites
+Ensure Node, ffmpeg, and fluidsynth are installed on your system.
+
+## Installation 
+1. Run git clone `https://github.com/CS-3311-JDE-3346/3346-vocoder-webapp.git` to download the repository onto the machine
+2. Run `npm i` to install all npm packages
+3. Ask Akash Misra to add you to the Firebase app (or create a new one), then go to Project Settings, Service Accounts, and generate a new key
+4. Rename the key to "serviceAccountKey.json" and move it to the root folder of the repository. Ensure this file never gets added to the Github repository
 
 ## Local Development
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Troubleshooting
+- If the backend says that a command failed, ensure that Fluidsynth and ffmpeg are on your system path, and that you can access it from any terminal
+- In order for runs to save properly, ensure you have included the "serviceAccountKey.json" file in the root folder
 
 # References
 Sound files: https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/
