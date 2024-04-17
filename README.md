@@ -19,6 +19,10 @@ Learn Vocoders is a website that helps users learn more about vocoders! Users wi
 - Users can now sync vocoder inputs and outputs with account.
 - File menu and custom vocoder input.
 
+### Bug Fixes
+- Improved stability of vocoder across different machines and operating systems
+- User can export MIDI file
+
 ### Known Issues
 - If you record a modulator signal, it requires a page reload in order to see it
 
