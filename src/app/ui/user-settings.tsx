@@ -20,7 +20,7 @@ const UserSettingActive = ({ user }) => {
         <PopoverContent>
           <div className="px-1 py-2">
             <p>User Profile</p>
-            <div>____________________________________</div>
+            <div style={{ color: '#FFFFFF' }}>____________________________________</div>
             <Select
               label="Education relation"
               placeholder={EducationRelation}
