@@ -25,6 +25,7 @@ import {
 import React, { useState } from "react";
 import Header from "../header";
 import UserSettingActive from "../ui/user-settings";
+import Theme from "../ui/theme";
 
 export default function Home() {
   app;
@@ -74,11 +75,11 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col h-screen">
+    <main className="flex flex-col h-screen dark:bg-black pg-4">
       <Header />
       <div className="flex-grow p-4">
         <div className="flex-col text-center">
-          <h2 className="mr-8 text-slate-800">
+          <h2 className="mr-8 text-slate-800 dark:text-white">
             Use the buttons below to navigate to helpful outside resources on
             vocoders and other components of music production
           </h2>
@@ -332,7 +333,7 @@ export default function Home() {
         </div>
       </div>
       <footer className="p-4">
-        <div className="float-left">
+        <div className="float-left mr-4">
           <div>Learning Progress: {learning_progress}%</div>
           <div
             style={{
@@ -351,6 +352,7 @@ export default function Home() {
           </div>
           <div></div>
         </div>
+        <Theme/>
         <Button color="secondary" className="float-right">
           <Link href="/">Back to the Vocoder</Link>
         </Button>
