@@ -8,6 +8,7 @@ import Header from "./header";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { createRun, getRuns } from "./lib/actions";
+import Theme from "./ui/theme";
 
 export default function Home() {
   const [runId, setRunId] = useState<undefined | string>();
@@ -43,24 +44,28 @@ export default function Home() {
 
   return (
     <main className="flex flex-col h-screen">
-      <Header runs={runs} setRunId={setRunId} setRuns={setRuns} isSwitchOn={isSwitchOn} toggleSwitch={toggleSwitch} />
-      <div className="flex-grow p-4">
-        <RunVocoderForm runId={runId} setRuns={setRuns} isSwitchOn={isSwitchOn} />
-      </div>
-      <div>
-          {isSwitchOn ? (
-            <p className="text-center">Don't forget to download your result so you can save it!</p>
-          ) : (
-            <p></p>
-          )}
+      <div className="dark:bg-black pb-4">
+        <Header runs={runs} setRunId={setRunId} setRuns={setRuns} isSwitchOn={isSwitchOn} toggleSwitch={toggleSwitch} />
+        <div className="flex-grow p-4">
+          <RunVocoderForm runId={runId} setRuns={setRuns} isSwitchOn={isSwitchOn} />
         </div>
-      <footer className="p-4">
-        <Button color="secondary" className="float-right">
-          <Link href="/education">Learn More About Vocoders!</Link>
-        </Button>
-      </footer>
-      <script src="vocoder.js"></script>
-      <script src="fileio.js"></script>
+        <div>
+            {isSwitchOn ? (
+              <p className="text-center">Don't forget to download your result so you can save it!</p>
+            ) : (
+              <p></p>
+            )}
+          </div>
+        <footer className="p-4">
+          <Button color="secondary" className="float-right">
+            <Link href="/education">Learn More About Vocoders!</Link>
+          </Button>
+          <Theme/>
+        </footer>
+        <script src="vocoder.js"></script>
+        <script src="fileio.js"></script>
+      </div>
+      
     </main>
   );
 }
