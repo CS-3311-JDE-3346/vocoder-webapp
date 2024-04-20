@@ -35,12 +35,14 @@ export default function Home() {
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
   const modal3 = useDisclosure();
+  const modal4 = useDisclosure();
 
   const [isComplete_1, setIsComplete_1] = useState(false);
   const [isComplete_2, setIsComplete_2] = useState(false);
   const [isComplete_3, setIsComplete_3] = useState(false);
+  const [isComplete_4, setIsComplete_4] = useState(false);
   const learning_progress =
-    ((isComplete_1 ? 1 : 0) + (isComplete_2 ? 1 : 0) + (isComplete_3 ? 1 : 0)) * 33.33333;
+    ((isComplete_1 ? 1 : 0) + (isComplete_2 ? 1 : 0) + (isComplete_3 ? 1 : 0) + (isComplete_4 ? 1 : 0)) * 25;
   function toggleSection(section) {
     if (section === 1) {
       setIsComplete_1((prevState) => !prevState);
@@ -48,6 +50,8 @@ export default function Home() {
       setIsComplete_2((prevState) => !prevState);
     } else if (section === 3) {
       setIsComplete_3((prevState) => !prevState);
+    } else if (section === 4) {
+      setIsComplete_4((prevState) => !prevState)
     }
   }
 
@@ -302,6 +306,68 @@ export default function Home() {
                       for yourself. Turn on the explanation mode toggle for a step by step walkthrough
                       if you need one.
                     </b></h3>
+                  </ModalBody>
+                  <ModalFooter className="flex-row flex justify-between">
+                    <a
+                      href={"/how_can_vocoders_be_used.pdf"}
+                      download="/how_can_vocoders_be_used.pdf"
+                      target="_blank"
+                    >
+                      <Button className="flex justify-between bg-blue-700 text-slate-300">
+                        Download as PDF
+                      </Button>
+                    </a>
+                    <Button
+                      className="flex justify-between bg-blue-700 text-slate-300"
+                      onClick={() => toggleSection(3)}
+                    >
+                      {isComplete_3 ? "Mark as Incomplete" : "Mark as Complete"}
+                    </Button>
+                    <Button
+                      className="flext justify-between bg-blue-700 text-slate-300"
+                      onClick={modal3.onClose}
+                    >
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </>
+              </ModalContent>
+            </Modal>
+            &nbsp; &nbsp;
+            <Button
+              className="basis-1/2 bg-blue-700 text-slate-300"
+              onPress={modal4.onOpen}
+            >
+              Vocoder Tutorial
+            </Button>
+            <Modal
+              size="5xl"
+              isOpen={modal4.isOpen}
+              onOpenChange={modal4.onOpenChange}
+              onClose={modal4.onClose}
+            >
+              <ModalContent>
+                <>
+                  <ModalHeader className="bg-blue-300">
+                    {" "}
+                    Vocoder Tutorial Video{" "}
+                  </ModalHeader>
+                  <ModalBody>
+                    <p>
+                      Below is a link to a video that has a basic tutorial on how 
+                      to use the vocoder we provided on this website. This is here 
+                      just to make sure that people are able to run the vocoder 
+                      we provided. Make sure to test it out yourself so that you 
+                      can learn more about how the vocoder works!
+                    </p>
+                    <p className="text-center">
+                      <a
+                        href="https://www.youtube.com/watch?v=N0JHvqu9sO8"
+                        target="_blank"
+                      >
+                        <b>Vocoder Tutorial Link</b>
+                      </a>
+                    </p>
                   </ModalBody>
                   <ModalFooter className="flex-row flex justify-between">
                     <a
