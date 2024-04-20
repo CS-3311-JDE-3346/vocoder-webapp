@@ -383,11 +383,11 @@ export default function Home() {
                       className="flex justify-between bg-blue-700 text-slate-300"
                       onClick={() => toggleSection(3)}
                     >
-                      {isComplete_3 ? "Mark as Incomplete" : "Mark as Complete"}
+                      {isComplete_4 ? "Mark as Incomplete" : "Mark as Complete"}
                     </Button>
                     <Button
                       className="flext justify-between bg-blue-700 text-slate-300"
-                      onClick={modal3.onClose}
+                      onClick={modal4.onClose}
                     >
                       Close
                     </Button>
