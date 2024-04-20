@@ -381,7 +381,7 @@ export default function Home() {
                     </a>
                     <Button
                       className="flex justify-between bg-blue-700 text-slate-300"
-                      onClick={() => toggleSection(3)}
+                      onClick={() => toggleSection(4)}
                     >
                       {isComplete_4 ? "Mark as Incomplete" : "Mark as Complete"}
                     </Button>
