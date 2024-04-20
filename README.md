@@ -94,7 +94,7 @@ Ensure Node, ffmpeg, fluidsynth, and gcc are installed on your system.
 3. Ask Akash Misra to add you to the Firebase app (or create a new one), then go to Project Settings, Service Accounts, and generate a new key
 4. Rename the key to "serviceAccountKey.json" and move it to the root folder of the repository. Ensure this file never gets added to the Github repository
 5. In any folder, run `git clone https://github.com/blastbay/voclib` 
-6. Run `cd voclib` and then run `gcc shell/vocshell.c -o vocoder`
+6. Run `cd voclib` and then run `gcc shell/vocshell.c -o vocoder -lm`
 7. Move the vocoder file into the root folder of the vocoder-webapp folder
 
 ## Local Development
