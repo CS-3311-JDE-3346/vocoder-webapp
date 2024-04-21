@@ -14,27 +14,37 @@ import { app, db } from "../../../firebase/firebaseApp"
 
 const UserSettingActive = ({ user }) => {
   
-  const [EducationRelation, setUserData] = useState("Not a Teacher or Student");
+  let educationRelationOptions = [
+    {label: "Not a Teacher or Student", value: "0"},
+    {label: "Teacher", value: "1"},
+    {label: "Student", value: "2"},
+  ]
+
+  const [EducationRelation, setUserData] = useState(new Set([educationRelationOptions[0]['value']]));
   //const [userData, setUserData] = useState(null);
 
   const fetchUserData = async () => {
     if (user) {
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (userDoc.exists()) {
-        setUserData(userDoc.data());
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          setUserData(new Set(["0"])  /*userDoc.data()*/);
+        }
+      } catch (error) {
+        console.error("Error getting data:", error);
       }
     }
   }
 
-  /*useEffect(() => {
+  useEffect(() => {
     fetchUserData();
-  }, [user])*/
+  }, [user])
 
-  const handleSubmit = async() => {
+  const handleSubmit = async(e) => {
     try {
       await addDoc(collection(db, "userInputs"), {
         userId: user.uid,
-        value: userData,
+        value: e.target.value,
       });
     } catch (error) {
       console.error("Error adding data:", error);
@@ -53,21 +63,16 @@ const UserSettingActive = ({ user }) => {
             <div style={{ color: '#FFFFFF' }}>____________________________________</div>
             <Select
               label="Education relation"
-              defaultSelectedKeys={[EducationRelation]}
-              onSelectionChange={handleSubmit}
+              items = {educationRelationOptions}
+              defaultSelectedKeys={EducationRelation}
+              onChange={handleSubmit}
             >
-              <SelectItem
-                key={"Not a Teacher or Student"}
-                value={"Not a Teacher or Student"}
-              >
-                Not a Teacher or Student
-              </SelectItem>
-              <SelectItem key={"Teacher"} value={"Teacher"}>
-                Teacher
-              </SelectItem>
-              <SelectItem key={"Student"} value={"Student"}>
-                Student
-              </SelectItem>
+              {
+                (educationRelationOptions) => <SelectItem key = {educationRelationOptions.value} value = {educationRelationOptions.value}>
+                  {}
+                  {educationRelationOptions.label}
+                </SelectItem>
+              }
             </Select>
           </div>
         </PopoverContent>
