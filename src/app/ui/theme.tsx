@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Toggle = () => {
     const [isContrast, settoHighContrast] = useState(false);
@@ -8,6 +8,13 @@ const Toggle = () => {
         settoHighContrast(prevMode => !prevMode);
         document.documentElement.classList.toggle('dark', isContrast);
     };
+
+    useEffect(() => {
+        const def_dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const storedTheme = localStorage.getItem('theme');
+        settoHighContrast(storedTheme === 'dark' || (storedTheme === null && def_dark));
+        document.documentElement.classList.toggle('dark', storedTheme === 'dark' || (storedTheme === null && def_dark));
+    }, [])
 
     return  (
         <button
