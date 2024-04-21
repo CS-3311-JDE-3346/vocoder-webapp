@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Popover,
@@ -7,9 +7,39 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react"; // Assuming you're using Chakra UI components
+import {getAuth, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {useAuthState} from "react-firebase-hooks/auth"
+import { doc, getDoc, collection , addDoc, getFirestore, initializeFirestore } from "firebase/firestore";
+import { app, db } from "../../../firebase/firebaseApp"
 
 const UserSettingActive = ({ user }) => {
-  const [EducationRelation, setValue] = useState("Not a Teacher or Student");
+  
+  const [EducationRelation, setUserData] = useState("Not a Teacher or Student");
+  //const [userData, setUserData] = useState(null);
+
+  const fetchUserData = async () => {
+    if (user) {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        setUserData(userDoc.data());
+      }
+    }
+  }
+
+  /*useEffect(() => {
+    fetchUserData();
+  }, [user])*/
+
+  const handleSubmit = async() => {
+    try {
+      await addDoc(collection(db, "userInputs"), {
+        userId: user.uid,
+        value: userData,
+      });
+    } catch (error) {
+      console.error("Error adding data:", error);
+    }
+  };
 
   if (user) {
     return (
@@ -23,8 +53,8 @@ const UserSettingActive = ({ user }) => {
             <div style={{ color: '#FFFFFF' }}>____________________________________</div>
             <Select
               label="Education relation"
-              placeholder={EducationRelation}
-              onSelectionChange={setValue}
+              defaultSelectedKeys={[EducationRelation]}
+              onSelectionChange={handleSubmit}
             >
               <SelectItem
                 key={"Not a Teacher or Student"}
