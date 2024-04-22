@@ -11,6 +11,7 @@ import {getAuth, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 import {useAuthState} from "react-firebase-hooks/auth"
 import { doc, getDoc, collection , addDoc, getFirestore, initializeFirestore } from "firebase/firestore";
 import { app, db } from "../../../firebase/firebaseApp"
+import {getEducationRelation, updateEducationRelation} from "../lib/actions";
 
 const UserSettingActive = ({ user }) => {
   
@@ -21,17 +22,16 @@ const UserSettingActive = ({ user }) => {
   ]
 
   const [EducationRelation, setUserData] = useState(new Set([educationRelationOptions[0]['value']]));
-  //const [userData, setUserData] = useState(null);
 
   const fetchUserData = async () => {
     if (user) {
       try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          setUserData(new Set(["0"])  /*userDoc.data()*/);
+        const idToken = await user.getIdToken();
+        const educationRelation = await getEducationRelation(idToken);
+        if (Object.keys(educationRelation).length > 0) {
+          setUserData(educationRelation.educationRelation);
         }
       } catch (error) {
-        //alert("Error getting data: " + error);
         console.error("Error getting data:", error);
       }
     }
@@ -43,15 +43,10 @@ const UserSettingActive = ({ user }) => {
 
   const handleSubmit = async(e) => {
     try {
-      //alert("Trying to add data: " + user.uid + ": " + e.target.value);
+      const idToken = await user.getIdToken();
+      updateEducationRelation(e.target.value, idToken);
       setUserData(e.target.value);
-      await addDoc(collection(db, "userInputs"), {
-        userId: user.uid,
-        value: e.target.value,
-      });
-      //alert("Successfully added data: " + user.uid + ": " + e.target.value);
     } catch (error) {
-      //alert("Error adding data: " + error);
       console.error("Error adding data:", error);
     }
   };
