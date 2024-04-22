@@ -124,6 +124,25 @@ export async function getRuns(userToken: string) {
   }
 }
 
+export async function getEducationRelation(userToken: string) {
+  const auth = getAuth();
+  if (userToken) {
+    let user;
+    try {
+      user = await auth.verifyIdToken(userToken);
+    } catch {
+      return;
+    }
+
+    const res = await get(ref(database, user.uid + "/educationRelation"));
+    if (res.exists()) {
+      return res.val();
+    } else {
+      return {};
+    }
+  }
+}
+
 export async function getRunInfo(runId: string, userToken: string) {
   const auth = getAuth();
   if (userToken) {
@@ -221,6 +240,28 @@ export async function updateRunName(
 
     update(ref(database, user.uid + "/runs/" + runId), {
       runName: newRunName,
+    });
+  }
+}
+
+export async function updateEducationRelation(
+  educationRelation: string,
+  userToken: string
+) {
+  const auth = getAuth();
+  if (userToken) {
+    let user;
+    try {
+      user = await auth.verifyIdToken(userToken);
+    } catch {
+      return;
+    }
+
+    const snapshot = await get(ref(database, user.uid + "/educationRelation"));
+    //if (!snapshot.exists()) return;
+
+    update(ref(database, user.uid + "/educationRelation"), {
+      educationRelation: educationRelation,
     });
   }
 }
