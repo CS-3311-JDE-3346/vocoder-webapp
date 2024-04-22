@@ -31,6 +31,7 @@ const UserSettingActive = ({ user }) => {
           setUserData(new Set(["0"])  /*userDoc.data()*/);
         }
       } catch (error) {
+        //alert("Error getting data: " + error);
         console.error("Error getting data:", error);
       }
     }
@@ -42,11 +43,15 @@ const UserSettingActive = ({ user }) => {
 
   const handleSubmit = async(e) => {
     try {
+      //alert("Trying to add data: " + user.uid + ": " + e.target.value);
+      setUserData(e.target.value);
       await addDoc(collection(db, "userInputs"), {
         userId: user.uid,
         value: e.target.value,
       });
+      //alert("Successfully added data: " + user.uid + ": " + e.target.value);
     } catch (error) {
+      //alert("Error adding data: " + error);
       console.error("Error adding data:", error);
     }
   };
